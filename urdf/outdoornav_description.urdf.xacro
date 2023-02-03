@@ -1,0 +1,264 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="outdoornav_sensors">
+  <!-- <xacro:macro name="outdoornav_sensors" params="starter_kit_configuration standard_kit_configuration custom_configuration"> -->
+  <xacro:macro name="outdoornav_sensors" params="outdoornav_configuration">
+
+    <xacro:arg name="starter_kit_xyz"          default="$(optenv STARTER_KIT_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="starter_kit_rpy"          default="$(optenv STARTER_KIT_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="swiftnav_position_enable" default="$(optenv SWIFTNAV_ENABLE_DRIVER false)" />
+    <xacro:arg name="swiftnav_position_xyz"    default="$(optenv SWIFTNAV_POSITION_GPS_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="swiftnav_position_rpy"    default="$(optenv SWIFTNAV_POSITION_GPS_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="swiftnav_heading_enable"  default="$(optenv SWIFTNAV_ENABLE_DRIVER false)" />
+    <xacro:arg name="swiftnav_heading_xyz"     default="$(optenv SWIFTNAV_HEADING_GPS_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="swiftnav_heading_rpy"     default="$(optenv SWIFTNAV_HEADING_GPS_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="ublox_enable"             default="$(optenv UBLOX_ENABLE_DRIVER false)" />
+    <xacro:arg name="ublox_xyz"                default="$(optenv UBLOX_POSITION_GPS_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="ublox_rpy"                default="$(optenv UBLOX_POSITION_GPS_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="microstrain_enable"       default="$(optenv MICROSTRAIN_ENABLE_DRIVER false)" />
+    <xacro:arg name="microstrain_xyz"          default="$(optenv MICROSTRAIN_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="microstrain_rpy"          default="$(optenv MICROSTRAIN_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="xsens_enable"             default="$(optenv XSENS_ENABLE_DRIVER false)" />
+    <xacro:arg name="xsens_xyz"                default="$(optenv XSENS_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="xsens_rpy"                default="$(optenv XSENS_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="phidget_spatial_enable"   default="$(optenv PHIDGET_ENABLE_DRIVER false)" />
+    <xacro:arg name="phidget_spatial_xyz"      default="$(optenv PHIDGET_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="phidget_spatial_rpy"      default="$(optenv PHIDGET_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="lms1xx_enable"            default="$(optenv LMS1XX_ENABLE_DRIVER false)" />
+    <xacro:arg name="lms1xx_xyz"               default="$(optenv LMS1XX_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="lms1xx_rpy"               default="$(optenv LMS1XX_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="rear_lms1xx_enable"       default="$(optenv REAR_LMS1XX_ENABLE_DRIVER false)" />
+    <xacro:arg name="rear_lms1xx_xyz"          default="$(optenv REAR_LMS1XX_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="rear_lms1xx_rpy"          default="$(optenv REAR_LMS1XX_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="hokuyo_enable"            default="$(optenv HOKUYO_ENABLE_DRIVER false)" />
+    <xacro:arg name="hokuyo_xyz"               default="$(optenv HOKUYO_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="hokuyo_rpy"               default="$(optenv HOKUYO_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="rear_hokuyo_enable"       default="$(optenv REAR_HOKUYO_ENABLE_DRIVER false)" />
+    <xacro:arg name="rear_hokuyo_xyz"          default="$(optenv REAR_HOKUYO_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="rear_hokuyo_rpy"          default="$(optenv REAR_HOKUYO_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="outdoorscan_enable"       default="$(optenv OUTDOORSCAN_ENABLE_DRIVER false)" />
+    <xacro:arg name="outdoorscan_xyz"          default="$(optenv OUTDOORSCAN_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="outdoorscan_rpy"          default="$(optenv OUTDOORSCAN_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="rear_outdoorscan_enable"  default="$(optenv REAR_OUTDOORSCAN_ENABLE_DRIVER false)" />
+    <xacro:arg name="rear_outdoorscan_xyz"     default="$(optenv REAR_OUTDOORSCAN_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="rear_outdoorscan_rpy"     default="$(optenv REAR_OUTDOORSCAN_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="vlp_enable"               default="$(optenv VLP_ENABLE_DRIVER false)" />
+    <xacro:arg name="vlp_xyz"                  default="$(optenv VLP_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="vlp_rpy"                  default="$(optenv VLP_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="rear_vlp_enable"          default="$(optenv REAR_VLP_ENABLE_DRIVER false)" />
+    <xacro:arg name="rear_vlp_xyz"             default="$(optenv REAR_VLP_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="rear_vlp_rpy"             default="$(optenv REAR_VLP_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="d435_enable"              default="$(optenv D435_ENABLE_DRIVER false)" />
+    <xacro:arg name="d435_xyz"                 default="$(optenv D435_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="d435_rpy"                 default="$(optenv D435_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="rear_d435_enable"         default="$(optenv REAR_D435_ENABLE_DRIVER false)" />
+    <xacro:arg name="rear_d435_xyz"            default="$(optenv REAR_D435_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="rear_d435_rpy"            default="$(optenv REAR_D435_RPY 0.0 0.0 0.0)" />
+
+    <xacro:arg name="onav_urdf_extras"         default="$(optenv OUTDOORNAV_URDF_EXTRAS empty.urdf)" />
+
+    <!-- Starter Kit -->
+    <!-- <xacro:if value="${starter_kit_configuration}"> -->
+    <xacro:if value="${outdoornav_configuration == 'starter'}">
+      <xacro:include filename="$(find cpr_onav_description)/urdf/starter_kit.urdf.xacro" />
+      <xacro:starter_kit
+        name="starter_kit"
+        parent="base_link"
+        starter_kit_xyz="$(arg starter_kit_xyz)"
+        starter_kit_rpy="$(arg starter_kit_rpy)"
+        ublox_xyz="$(arg ublox_xyz)"
+        ublox_rpy="$(arg ublox_rpy)"
+        phidget_spatial_xyz="$(arg phidget_spatial_xyz)"
+        phidget_spatial_rpy="$(arg phidget_spatial_rpy)"
+        d435_xyz="$(arg d435_xyz)"
+        d435_rpy="$(arg d435_rpy)"
+        rear_d435_xyz="$(arg rear_d435_xyz)"
+        rear_d435_rpy="$(arg rear_d435_rpy)" >
+      </xacro:starter_kit>
+    </xacro:if>
+
+    <!-- Standard Kit -->
+    <!-- <xacro:if value="${standard_kit_configuration}"> -->
+    <xacro:if value="${outdoornav_configuration == 'standard'}">
+      <xacro:include filename="$(find cpr_onav_description)/urdf/standard_kit.urdf.xacro" />
+      <xacro:standard_kit
+        swiftnav_position_xyz="$(arg swiftnav_position_xyz)"
+        swiftnav_heading_rpy="$(arg swiftnav_heading_rpy)"
+        microstrain_xyz="$(arg microstrain_xyz)"
+        microstrain_rpy="$(arg microstrain_rpy)"
+        vlp_xyz="$(arg vlp_xyz)"
+        vlp_rpy="$(arg vlp_rpy)" >
+      </xacro:standard_kit>
+    </xacro:if>
+
+    <!-- Custom configuration -->
+    <!-- <xacro:if value="${custom_configuration}"> -->
+    <xacro:if value="${outdoornav_configuration == 'custom'}">
+      <!-- Position GPS (Duro) -->
+      <xacro:if value="$(arg swiftnav_position_enable)">
+        <link name="gps_position_link"/>
+        <joint name="gps_position_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="gps_position_link" />
+          <origin xyz="$(arg swiftnav_position_xyz)" rpy="$(arg swiftnav_position_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <!-- Heading GPS -->
+      <xacro:if value="$(arg swiftnav_heading_enable)">
+        <link name="gps_heading_link"/>
+        <joint name="gps_heading_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="gps_heading_link" />
+          <origin xyz="$(arg swiftnav_heading_xyz)" rpy="$(arg swiftnav_heading_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <!-- Position GPS (Ublox) -->
+      <xacro:if value="$(arg ublox_enable)">
+        <link name="gps_position_link"/>
+        <joint name="gps_position_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="gps_position_link" />
+          <origin xyz="$(arg ublox_xyz)" rpy="$(arg ublox_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <!-- Microstrain Link -->
+      <xacro:if value="$(arg microstrain_enable)">
+        <link name="microstrain_link"/>
+        <joint name="microstrain_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="microstrain_link" />
+          <origin xyz="$(arg microstrain_xyz)" rpy="$(arg microstrain_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <!-- Xsens Link -->
+      <xacro:if value="$(arg xsens_enable)">
+        <link name="xsens_link"/>
+        <joint name="xsens_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="xsens_link" />
+          <origin xyz="$(arg xsens_xyz)" rpy="$(arg xsens_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <!-- Velodyne Link -->
+      <xacro:if value="$(arg vlp_enable)">
+        <link name="velodyne"/>
+        <joint name="velodyne_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="velodyne" />
+          <origin xyz="$(arg vlp_xyz)" rpy="$(arg vlp_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <!-- Rear Velodyne Link -->
+      <xacro:if value="$(arg rear_vlp_enable)">
+        <link name="rear_velodyne"/>
+        <joint name="rear_velodyne_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="rear_velodyne" />
+          <origin xyz="$(arg rear_vlp_xyz)" rpy="$(arg rear_vlp_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <!-- 2D LiDAR(s) Link -->
+      <xacro:if value="$(arg lms1xx_enable)">
+        <xacro:include filename="$(find husky_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
+
+        <link name="front_laser"/>
+        <joint name="front_laser_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="front_laser" />
+          <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <xacro:if value="$(arg hokuyo_enable)">
+        <link name="front_laser"/>
+        <joint name="front_laser_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="front_laser" />
+          <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <xacro:if value="$(arg outdoorscan_enable)">
+        <link name="front_laser"/>
+        <joint name="front_laser_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="front_laser" />
+          <origin xyz="$(arg outdoorscan_xyz)" rpy="$(arg outdoorscan_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <!-- Rear 2D LiDAR(s) Link -->
+      <xacro:if value="$(arg rear_lms1xx_enable)">
+        <link name="rear_laser"/>
+        <joint name="rear_laser_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="rear_laser" />
+          <origin xyz="$(arg rear_lms1xx_xyz)" rpy="$(arg rear_lms1xx_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <xacro:if value="$(arg rear_hokuyo_enable)">
+        <link name="rear_laser"/>
+        <joint name="rear_laser_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="rear_laser" />
+          <origin xyz="$(arg rear_hokuyo_xyz)" rpy="$(arg rear_hokuyo_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <xacro:if value="$(arg rear_outdoorscan_enable)">
+        <link name="rear_laser"/>
+        <joint name="rear_laser_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="rear_laser" />
+          <origin xyz="$(arg rear_outdoorscan_xyz)" rpy="$(arg rear_outdoorscan_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <!-- Realsense D435 Link -->
+      <xacro:if value="$(arg d435_enable)">
+        <link name="front_d435_link"/>
+        <joint name="front_d435_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="front_d435_link" />
+          <origin xyz="$(arg d435_xyz)" rpy="$(arg d435_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <xacro:if value="$(arg rear_d435_enable)">
+        <link name="rear_d435_link"/>
+        <joint name="rear_d435_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="rear_d435_link" />
+          <origin xyz="$(arg rear_d435_xyz)" rpy="$(arg rear_d435_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <!-- Optinal for OEM platforms or additional sensors customers want to use as inputs to OutdoorNav -->
+      <xacro:include filename="$(arg onav_urdf_extras)" />
+
+    </xacro:if>
+  </xacro:macro>
+</robot>

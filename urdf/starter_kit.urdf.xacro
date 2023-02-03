@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="cpr_onav_starter_kit">
+  <xacro:macro name="starter_kit" params="name parent starter_kit_xyz starter_kit_rpy ublox_xyz ublox_rpy phidget_spatial_xyz phidget_spatial_rpy d435_xyz d435_rpy rear_d435_xyz rear_d435_rpy">
+    <link name="${name}_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://cpr_onav_description/meshes/starter_kit.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://cpr_onav_description/meshes/starter_kit.stl" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="${name}_link" />
+      <origin xyz="${starter_kit_xyz}" rpy="${starter_kit_rpy}"/>
+    </joint>
+
+    <!-- Position GNSS (Ublox) -->
+    <link name="gps_position_link"/>
+    <joint name="gps_position_to_kit" type="fixed">
+      <parent link="${name}_link" />
+      <child link="gps_position_link" />
+      <origin xyz="${ublox_xyz}" rpy="${ublox_rpy}"/>
+    </joint>
+
+    <!-- Phidget Spatial IMU -->
+    <link name="phidget_spatial_link"/>
+    <joint name="phidget_spatial_to_kit" type="fixed">
+      <parent link="${name}_link" />
+      <child link="phidget_spatial_link" />
+      <origin xyz="${phidget_spatial_xyz}" rpy="${phidget_spatial_rpy}"/>
+    </joint>
+
+    <!-- Realsense D435 -->
+    <link name="front_d435_link"/>
+    <joint name="front_d435_to_kit" type="fixed">
+      <parent link="${name}_link" />
+      <child link="front_d435_link" />
+      <origin xyz="${d435_xyz}" rpy="${d435_rpy}"/>
+    </joint>
+
+    <!-- Rear Realsense D435 -->
+    <link name="rear_d435_link"/>
+    <joint name="rear_d435_to_kit" type="fixed">
+      <parent link="${name}_link" />
+      <child link="rear_d435_link" />
+      <origin xyz="${rear_d435_xyz}" rpy="${rear_d435_rpy}"/>
+    </joint>
+
+  </xacro:macro>
+</robot>

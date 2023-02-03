@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="cpr_onav_standard_kit">
+  <xacro:macro name="standard_kit" params="swiftnav_position_xyz swiftnav_heading_xyz microstrain_xyz microstrain_rpy vlp_xyz vlp_rpy">
+
+    <!-- Position GPS (Duro) -->
+    <link name="gps_position_link"/>
+    <joint name="gps_position_to_base" type="fixed">
+      <parent link="base_link" />
+      <child link="gps_position_link" />
+      <origin xyz="$(arg swiftnav_position_xyz)" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <!-- Heading GPS -->
+    <link name="gps_heading_link"/>
+    <joint name="gps_heading_to_base" type="fixed">
+      <parent link="base_link" />
+      <child link="gps_heading_link" />
+      <origin xyz="$(arg swiftnav_heading_xyz)" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <!-- Microstrain Link -->
+    <link name="microstrain_link"/>
+    <joint name="microstrain_to_base" type="fixed">
+      <parent link="base_link" />
+      <child link="microstrain_link" />
+      <origin xyz="$(arg microstrain_xyz)" rpy="$(arg microstrain_rpy)"/>
+    </joint>
+
+    <!-- Velodyne Link -->
+    <link name="velodyne"/>
+    <joint name="velodyne_to_base" type="fixed">
+      <parent link="base_link" />
+      <child link="velodyne" />
+      <origin xyz="$(arg vlp_xyz)" rpy="$(arg vlp_rpy)"/>
+    </joint>
+  </xacro:macro>
+</robot>
