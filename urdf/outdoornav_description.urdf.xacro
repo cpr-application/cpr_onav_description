@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="outdoornav_sensors">
-  <!-- <xacro:macro name="outdoornav_sensors" params="starter_kit_configuration standard_kit_configuration custom_configuration"> -->
   <xacro:macro name="outdoornav_sensors" params="outdoornav_configuration">
 
     <xacro:arg name="starter_kit_xyz"          default="$(optenv STARTER_KIT_XYZ 0.0 0.0 0.0)" />
@@ -73,7 +72,6 @@
     <xacro:arg name="onav_urdf_extras"         default="$(optenv OUTDOORNAV_URDF_EXTRAS empty.urdf)" />
 
     <!-- Starter Kit -->
-    <!-- <xacro:if value="${starter_kit_configuration}"> -->
     <xacro:if value="${outdoornav_configuration == 'starter'}">
       <xacro:include filename="$(find cpr_onav_description)/urdf/starter_kit.urdf.xacro" />
       <xacro:starter_kit
@@ -93,12 +91,11 @@
     </xacro:if>
 
     <!-- Standard Kit -->
-    <!-- <xacro:if value="${standard_kit_configuration}"> -->
     <xacro:if value="${outdoornav_configuration == 'standard'}">
       <xacro:include filename="$(find cpr_onav_description)/urdf/standard_kit.urdf.xacro" />
       <xacro:standard_kit
         swiftnav_position_xyz="$(arg swiftnav_position_xyz)"
-        swiftnav_heading_rpy="$(arg swiftnav_heading_rpy)"
+        swiftnav_heading_xyz="$(arg swiftnav_heading_xyz)"
         microstrain_xyz="$(arg microstrain_xyz)"
         microstrain_rpy="$(arg microstrain_rpy)"
         vlp_xyz="$(arg vlp_xyz)"
@@ -107,7 +104,6 @@
     </xacro:if>
 
     <!-- Custom configuration -->
-    <!-- <xacro:if value="${custom_configuration}"> -->
     <xacro:if value="${outdoornav_configuration == 'custom'}">
       <!-- Position GPS (Duro) -->
       <xacro:if value="$(arg swiftnav_position_enable)">
@@ -161,7 +157,18 @@
 
       <!-- Velodyne Link -->
       <xacro:if value="$(arg vlp_enable)">
-        <link name="velodyne"/>
+        <link name="velodyne">
+          <visual>
+            <geometry>
+              <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
+            </geometry>
+          </visual>
+          <visual>
+            <geometry>
+              <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
+            </geometry>
+          </visual>
+        </link>
         <joint name="velodyne_to_base" type="fixed">
           <parent link="base_link" />
           <child link="velodyne" />
@@ -171,7 +178,18 @@
 
       <!-- Rear Velodyne Link -->
       <xacro:if value="$(arg rear_vlp_enable)">
-        <link name="rear_velodyne"/>
+        <link name="rear_velodyne">
+          <visual>
+            <geometry>
+              <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
+            </geometry>
+          </visual>
+          <visual>
+            <geometry>
+              <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
+            </geometry>
+          </visual>
+        </link>
         <joint name="rear_velodyne_to_base" type="fixed">
           <parent link="base_link" />
           <child link="rear_velodyne" />
@@ -256,7 +274,7 @@
         </joint>
       </xacro:if>
 
-      <!-- Optinal for OEM platforms or additional sensors customers want to use as inputs to OutdoorNav -->
+      <!-- Optional for OEM platforms or additional sensors customers want to use as inputs to OutdoorNav -->
       <xacro:include filename="$(arg onav_urdf_extras)" />
 
     </xacro:if>

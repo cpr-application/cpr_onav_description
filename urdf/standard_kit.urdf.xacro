@@ -27,7 +27,18 @@
     </joint>
 
     <!-- Velodyne Link -->
-    <link name="velodyne"/>
+    <link name="velodyne">
+      <visual>
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
+        </geometry>
+      </visual>
+      <visual>
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
+        </geometry>
+      </visual>
+    </link>
     <joint name="velodyne_to_base" type="fixed">
       <parent link="base_link" />
       <child link="velodyne" />
