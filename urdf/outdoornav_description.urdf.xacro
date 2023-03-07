@@ -32,18 +32,22 @@
     <xacro:arg name="lms1xx_enable"            default="$(optenv LMS1XX_ENABLE_DRIVER false)" />
     <xacro:arg name="lms1xx_xyz"               default="$(optenv LMS1XX_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="lms1xx_rpy"               default="$(optenv LMS1XX_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="lms1xx_num"               default="$(optenv LMS1XX_NUM 0)" />
 
     <xacro:arg name="rear_lms1xx_enable"       default="$(optenv REAR_LMS1XX_ENABLE_DRIVER false)" />
     <xacro:arg name="rear_lms1xx_xyz"          default="$(optenv REAR_LMS1XX_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="rear_lms1xx_rpy"          default="$(optenv REAR_LMS1XX_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="rear_lms1xx_num"          default="$(optenv REAR_LMS1XX_NUM 0)" />
 
     <xacro:arg name="hokuyo_enable"            default="$(optenv HOKUYO_ENABLE_DRIVER false)" />
     <xacro:arg name="hokuyo_xyz"               default="$(optenv HOKUYO_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="hokuyo_rpy"               default="$(optenv HOKUYO_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="hokuyo_num"               default="$(optenv HOKUYO_NUM 0)" />
 
     <xacro:arg name="rear_hokuyo_enable"       default="$(optenv REAR_HOKUYO_ENABLE_DRIVER false)" />
     <xacro:arg name="rear_hokuyo_xyz"          default="$(optenv REAR_HOKUYO_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="rear_hokuyo_rpy"          default="$(optenv REAR_HOKUYO_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="rear_hokuyo_num"          default="$(optenv REAR_HOKUYO_NUM 0)" />
 
     <xacro:arg name="outdoorscan_enable"       default="$(optenv OUTDOORSCAN_ENABLE_DRIVER false)" />
     <xacro:arg name="outdoorscan_xyz"          default="$(optenv OUTDOORSCAN_XYZ 0.0 0.0 0.0)" />
@@ -56,6 +60,7 @@
     <xacro:arg name="vlp_enable"               default="$(optenv VLP_ENABLE_DRIVER false)" />
     <xacro:arg name="vlp_xyz"                  default="$(optenv VLP_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="vlp_rpy"                  default="$(optenv VLP_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="vlp_num"                  default="$(optenv VLP_NUM 0)" />
 
     <xacro:arg name="rear_vlp_enable"          default="$(optenv REAR_VLP_ENABLE_DRIVER false)" />
     <xacro:arg name="rear_vlp_xyz"             default="$(optenv REAR_VLP_XYZ 0.0 0.0 0.0)" />
@@ -99,12 +104,18 @@
         microstrain_xyz="$(arg microstrain_xyz)"
         microstrain_rpy="$(arg microstrain_rpy)"
         vlp_xyz="$(arg vlp_xyz)"
-        vlp_rpy="$(arg vlp_rpy)" >
+        vlp_rpy="$(arg vlp_rpy)"
+        vlp_num="$(arg vlp_num)" >
       </xacro:standard_kit>
     </xacro:if>
 
     <!-- Custom configuration -->
     <xacro:if value="${outdoornav_configuration == 'custom'}">
+      <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+      <xacro:include filename="$(find husky_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
+      <xacro:include filename="$(find husky_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
+      <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+
       <!-- Position GPS (Duro) -->
       <xacro:if value="$(arg swiftnav_position_enable)">
         <link name="gps_position_link"/>
@@ -157,65 +168,29 @@
 
       <!-- Velodyne Link -->
       <xacro:if value="$(arg vlp_enable)">
-        <link name="velodyne">
-          <visual>
-            <geometry>
-              <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
-            </geometry>
-          </visual>
-          <visual>
-            <geometry>
-              <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
-            </geometry>
-          </visual>
-        </link>
-        <joint name="velodyne_to_base" type="fixed">
-          <parent link="base_link" />
-          <child link="velodyne" />
-          <origin xyz="$(arg vlp_xyz)" rpy="$(arg vlp_rpy)"/>
-        </joint>
+        <xacro:VLP-16 name="velodyne" parent="base_link" topic="/sensors/lidar/$(arg vlp_num)/pointcloud">
+          <origin xyz="$(arg vlp_xyz)" rpy="$(arg vlp_rpy)" />
+        </xacro:VLP-16>
       </xacro:if>
 
       <!-- Rear Velodyne Link -->
       <xacro:if value="$(arg rear_vlp_enable)">
-        <link name="rear_velodyne">
-          <visual>
-            <geometry>
-              <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
-            </geometry>
-          </visual>
-          <visual>
-            <geometry>
-              <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
-            </geometry>
-          </visual>
-        </link>
-        <joint name="rear_velodyne_to_base" type="fixed">
-          <parent link="base_link" />
-          <child link="rear_velodyne" />
-          <origin xyz="$(arg rear_vlp_xyz)" rpy="$(arg rear_vlp_rpy)"/>
-        </joint>
+        <xacro:VLP-16 name="rear_velodyne" parent="base_link" topic="/sensors/lidar/$(arg vlp_num)/pointcloud">
+          <origin xyz="$(arg rear_vlp_xyz)" rpy="$(arg rear_vlp_rpy)" />
+        </xacro:VLP-16>
       </xacro:if>
 
       <!-- 2D LiDAR(s) Link -->
       <xacro:if value="$(arg lms1xx_enable)">
-        <xacro:include filename="$(find husky_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
-
-        <link name="front_laser"/>
-        <joint name="front_laser_to_base" type="fixed">
-          <parent link="base_link" />
-          <child link="front_laser" />
+        <xacro:sick_lms1xx_mount prefix="front" parent="base_link" topic="/sensors/lidar/$(arg lms1xx_num)/scan" tower="0" robot_namespace="/">
           <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
-        </joint>
+        </xacro:sick_lms1xx_mount>
       </xacro:if>
 
       <xacro:if value="$(arg hokuyo_enable)">
-        <link name="front_laser"/>
-        <joint name="front_laser_to_base" type="fixed">
-          <parent link="base_link" />
-          <child link="front_laser" />
-          <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)"/>
-        </joint>
+        <xacro:hokuyo_ust10_mount prefix="front_laser" parent_link="base_link" topic="/sensors/lidar/$(arg hokuyo_num)/scan">
+            <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
+        </xacro:hokuyo_ust10_mount>
       </xacro:if>
 
       <xacro:if value="$(arg outdoorscan_enable)">
@@ -229,21 +204,15 @@
 
       <!-- Rear 2D LiDAR(s) Link -->
       <xacro:if value="$(arg rear_lms1xx_enable)">
-        <link name="rear_laser"/>
-        <joint name="rear_laser_to_base" type="fixed">
-          <parent link="base_link" />
-          <child link="rear_laser" />
-          <origin xyz="$(arg rear_lms1xx_xyz)" rpy="$(arg rear_lms1xx_rpy)"/>
-        </joint>
+        <xacro:sick_lms1xx_mount prefix="rear" parent="base_link" topic="/sensors/lidar/$(arg rear_lms1xx_num)/scan" tower="0" robot_namespace="/">
+          <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
+        </xacro:sick_lms1xx_mount>
       </xacro:if>
 
       <xacro:if value="$(arg rear_hokuyo_enable)">
-        <link name="rear_laser"/>
-        <joint name="rear_laser_to_base" type="fixed">
-          <parent link="base_link" />
-          <child link="rear_laser" />
-          <origin xyz="$(arg rear_hokuyo_xyz)" rpy="$(arg rear_hokuyo_rpy)"/>
-        </joint>
+        <xacro:hokuyo_ust10_mount prefix="rear_laser" parent_link="base_link" topic="/sensors/lidar/$(arg rear_hokuyo_num)/scan">
+            <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
+        </xacro:hokuyo_ust10_mount>
       </xacro:if>
 
       <xacro:if value="$(arg rear_outdoorscan_enable)">
@@ -257,21 +226,15 @@
 
       <!-- Realsense D435 Link -->
       <xacro:if value="$(arg d435_enable)">
-        <link name="front_d435_link"/>
-        <joint name="front_d435_to_base" type="fixed">
-          <parent link="base_link" />
-          <child link="front_d435_link" />
+        <xacro:sensor_d435 name="front_d435" parent="base_link" use_mesh="true">
           <origin xyz="$(arg d435_xyz)" rpy="$(arg d435_rpy)"/>
-        </joint>
+        </xacro:sensor_d435>
       </xacro:if>
 
       <xacro:if value="$(arg rear_d435_enable)">
-        <link name="rear_d435_link"/>
-        <joint name="rear_d435_to_base" type="fixed">
-          <parent link="base_link" />
-          <child link="rear_d435_link" />
+        <xacro:sensor_d435 name="rear_d435" parent="base_link" use_mesh="true">
           <origin xyz="$(arg rear_d435_xyz)" rpy="$(arg rear_d435_rpy)"/>
-        </joint>
+        </xacro:sensor_d435>
       </xacro:if>
 
       <!-- Optional for OEM platforms or additional sensors customers want to use as inputs to OutdoorNav -->

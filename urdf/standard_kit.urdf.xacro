@@ -1,21 +1,55 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="cpr_onav_standard_kit">
-  <xacro:macro name="standard_kit" params="swiftnav_position_xyz swiftnav_heading_xyz microstrain_xyz microstrain_rpy vlp_xyz vlp_rpy">
+  <xacro:macro name="standard_kit" params="swiftnav_position_xyz swiftnav_heading_xyz microstrain_xyz microstrain_rpy vlp_xyz vlp_rpy vlp_num">
+
+    <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
 
     <!-- Position GPS (Duro) -->
-    <link name="gps_position_link"/>
+    <link name="gps_position_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://cpr_onav_description/meshes/gnss_antenna.stl" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <material name="white">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://cpr_onav_description/meshes/gnss_antenna.stl" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0 " />
+      </collision>
+    </link>
     <joint name="gps_position_to_base" type="fixed">
       <parent link="base_link" />
       <child link="gps_position_link" />
-      <origin xyz="$(arg swiftnav_position_xyz)" rpy="0.0 0.0 0.0"/>
+      <origin xyz="${swiftnav_position_xyz}" rpy="0 0 0"/>
     </joint>
 
     <!-- Heading GPS -->
-    <link name="gps_heading_link"/>
+    <link name="gps_heading_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://cpr_onav_description/meshes/gnss_antenna.stl" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <material name="white">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://cpr_onav_description/meshes/gnss_antenna.stl" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0 " />
+      </collision>
+    </link>
     <joint name="gps_heading_to_base" type="fixed">
       <parent link="base_link" />
       <child link="gps_heading_link" />
-      <origin xyz="$(arg swiftnav_heading_xyz)" rpy="0.0 0.0 0.0"/>
+      <origin xyz="${swiftnav_heading_xyz}" rpy="0 0 0"/>
     </joint>
 
     <!-- Microstrain Link -->
@@ -23,26 +57,13 @@
     <joint name="microstrain_to_base" type="fixed">
       <parent link="base_link" />
       <child link="microstrain_link" />
-      <origin xyz="$(arg microstrain_xyz)" rpy="$(arg microstrain_rpy)"/>
+      <origin xyz="${microstrain_xyz}" rpy="${microstrain_rpy}"/>
     </joint>
 
     <!-- Velodyne Link -->
-    <link name="velodyne">
-      <visual>
-        <geometry>
-          <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
-        </geometry>
-      </visual>
-      <visual>
-        <geometry>
-          <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
-        </geometry>
-      </visual>
-    </link>
-    <joint name="velodyne_to_base" type="fixed">
-      <parent link="base_link" />
-      <child link="velodyne" />
-      <origin xyz="$(arg vlp_xyz)" rpy="$(arg vlp_rpy)"/>
-    </joint>
+    <xacro:VLP-16 name="velodyne" parent="base_link" topic="/sensors/lidar/${vlp_num}/pointcloud">
+      <origin xyz="${vlp_xyz}" rpy="${vlp_rpy}" />
+    </xacro:VLP-16>
+
   </xacro:macro>
 </robot>

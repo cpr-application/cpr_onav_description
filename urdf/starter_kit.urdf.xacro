@@ -1,16 +1,26 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="cpr_onav_starter_kit">
   <xacro:macro name="starter_kit" params="name parent starter_kit_xyz starter_kit_rpy ublox_xyz ublox_rpy phidget_spatial_xyz phidget_spatial_rpy d435_xyz d435_rpy rear_d435_xyz rear_d435_rpy">
+
+    <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+
     <link name="${name}_link">
       <visual>
         <geometry>
-          <mesh filename="package://cpr_onav_description/meshes/starter_kit.stl" />
+          <mesh filename="package://cpr_onav_description/meshes/starter_kit.stl" scale="0.001 0.001 0.001" />
         </geometry>
+        <material name="yellow" />        
+<!--         <material name="yellow" >
+          <color rgba="255 237 4 1" />
+        </material>
+-->
+        <origin xyz="0 0 0" rpy="0 0 0" />
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://cpr_onav_description/meshes/starter_kit.stl" />
+          <mesh filename="package://cpr_onav_description/meshes/starter_kit.stl" scale="0.001 0.001 0.001" />
         </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0 " />
       </collision>
     </link>
     <joint name="${name}_joint" type="fixed">
@@ -20,7 +30,23 @@
     </joint>
 
     <!-- Position GNSS (Ublox) -->
-    <link name="gps_position_link"/>
+    <link name="gps_position_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://cpr_onav_description/meshes/gnss_antenna.stl" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <material name="white">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://cpr_onav_description/meshes/gnss_antenna.stl" />
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0 " />
+      </collision>
+    </link>
     <joint name="gps_position_to_kit" type="fixed">
       <parent link="${name}_link" />
       <child link="gps_position_link" />
@@ -36,20 +62,14 @@
     </joint>
 
     <!-- Realsense D435 -->
-    <link name="front_d435_link"/>
-    <joint name="front_d435_to_kit" type="fixed">
-      <parent link="${name}_link" />
-      <child link="front_d435_link" />
+    <xacro:sensor_d435 name="front_d435" parent="${name}_link" use_mesh="true">
       <origin xyz="${d435_xyz}" rpy="${d435_rpy}"/>
-    </joint>
+    </xacro:sensor_d435>
 
     <!-- Rear Realsense D435 -->
-    <link name="rear_d435_link"/>
-    <joint name="rear_d435_to_kit" type="fixed">
-      <parent link="${name}_link" />
-      <child link="rear_d435_link" />
+    <xacro:sensor_d435 name="rear_d435" parent="${name}_link" use_mesh="true">
       <origin xyz="${rear_d435_xyz}" rpy="${rear_d435_rpy}"/>
-    </joint>
+    </xacro:sensor_d435>
 
   </xacro:macro>
 </robot>
