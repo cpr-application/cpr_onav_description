@@ -76,6 +76,9 @@
 
     <xacro:arg name="onav_urdf_extras"         default="$(optenv OUTDOORNAV_URDF_EXTRAS empty.urdf)" />
 
+    <xacro:arg name="enable_docking"           default="$(optenv OUTDOORNAV_ENABLE_DOCKING false)" />
+    <xacro:arg name="charge_receiver_xyz"      default="$(optenv CHARGE_RECEIVER_XYZ 0.0 0.0 0.0)" />
+
     <!-- Starter Kit -->
     <xacro:if value="${outdoornav_configuration == 'starter'}">
       <xacro:include filename="$(find cpr_onav_description)/urdf/starter_kit.urdf.xacro" />
@@ -241,5 +244,15 @@
       <xacro:include filename="$(arg onav_urdf_extras)" />
 
     </xacro:if>
+
+    <xacro:if value="$(arg enable_docking)">
+        <link name="charger_link"/>
+        <joint name="charger_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="charger_link" />
+          <origin xyz="$(arg charge_receiver_xyz)" rpy="0.0 0.0 0.0"/>
+        </joint>
+    </xacro:if>
+
   </xacro:macro>
 </robot>
