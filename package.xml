@@ -13,7 +13,7 @@
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>husky_description</depend>
+  <depend>lms1xx</depend>
   <depend>realsense2_description</depend>
   <depend>velodyne_description</depend>
 
