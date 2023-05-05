@@ -2,6 +2,13 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added license file.
+* remove circular dependency by adding local copies of accesory urdf files
+* added charge receiver link
+* Contributors: José Mastrangelo, Tony Baltovski
+
 0.1.0 (2023-03-16)
 ------------------
 * Added STL files for Starter Kit, Velodynes and Realsense D435s
