@@ -2,8 +2,8 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.1 (2023-05-08)
+------------------
 * Added license file.
 * remove circular dependency by adding local copies of accesory urdf files
 * added charge receiver link
