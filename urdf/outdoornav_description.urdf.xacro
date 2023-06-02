@@ -112,12 +112,12 @@
       </xacro:standard_kit>
     </xacro:if>
 
+    <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+    <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
+    <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
+    <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
     <!-- Custom configuration -->
     <xacro:if value="${outdoornav_configuration == 'custom'}">
-      <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
-      <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
-      <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
-      <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
 
       <!-- Position GPS (Duro) -->
       <xacro:if value="$(arg swiftnav_position_enable)">
@@ -171,27 +171,22 @@
 
       <!-- Velodyne Link -->
       <xacro:if value="$(arg vlp_enable)">
-        <xacro:VLP-16 name="velodyne" parent="base_link" topic="/sensors/lidar/$(arg vlp_num)/pointcloud">
+        <xacro:VLP-16 name="velodyne" parent="base_link" topic="/sensors/lidar_$(arg vlp_num)/pointcloud">
           <origin xyz="$(arg vlp_xyz)" rpy="$(arg vlp_rpy)" />
         </xacro:VLP-16>
       </xacro:if>
 
       <!-- Rear Velodyne Link -->
       <xacro:if value="$(arg rear_vlp_enable)">
-        <xacro:VLP-16 name="rear_velodyne" parent="base_link" topic="/sensors/lidar/$(arg vlp_num)/pointcloud">
+        <xacro:VLP-16 name="rear_velodyne" parent="base_link" topic="/sensors/lidar_$(arg vlp_num)/pointcloud">
           <origin xyz="$(arg rear_vlp_xyz)" rpy="$(arg rear_vlp_rpy)" />
         </xacro:VLP-16>
       </xacro:if>
 
       <!-- 2D LiDAR(s) Link -->
-      <xacro:if value="$(arg lms1xx_enable)">
-        <xacro:sick_lms1xx_mount prefix="front" parent="base_link" topic="/sensors/lidar/$(arg lms1xx_num)/scan" tower="0" robot_namespace="/">
-          <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
-        </xacro:sick_lms1xx_mount>
-      </xacro:if>
 
       <xacro:if value="$(arg hokuyo_enable)">
-        <xacro:hokuyo_ust10_mount prefix="front_laser" parent_link="base_link" topic="/sensors/lidar/$(arg hokuyo_num)/scan">
+        <xacro:hokuyo_ust10_mount prefix="front_laser" parent_link="base_link" topic="/sensors/lidar_$(arg hokuyo_num)/scan">
             <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
         </xacro:hokuyo_ust10_mount>
       </xacro:if>
@@ -207,13 +202,13 @@
 
       <!-- Rear 2D LiDAR(s) Link -->
       <xacro:if value="$(arg rear_lms1xx_enable)">
-        <xacro:sick_lms1xx_mount prefix="rear" parent="base_link" topic="/sensors/lidar/$(arg rear_lms1xx_num)/scan" tower="0" robot_namespace="/">
+        <xacro:sick_lms1xx_mount prefix="rear" parent="base_link" topic="/sensors/lidar_$(arg rear_lms1xx_num)/scan" tower="0" robot_namespace="/">
           <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
         </xacro:sick_lms1xx_mount>
       </xacro:if>
 
       <xacro:if value="$(arg rear_hokuyo_enable)">
-        <xacro:hokuyo_ust10_mount prefix="rear_laser" parent_link="base_link" topic="/sensors/lidar/$(arg rear_hokuyo_num)/scan">
+        <xacro:hokuyo_ust10_mount prefix="rear_laser" parent_link="base_link" topic="/sensors/lidar_$(arg rear_hokuyo_num)/scan">
             <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
         </xacro:hokuyo_ust10_mount>
       </xacro:if>
@@ -243,6 +238,12 @@
       <!-- Optional for OEM platforms or additional sensors customers want to use as inputs to OutdoorNav -->
       <xacro:include filename="$(arg onav_urdf_extras)" />
 
+    </xacro:if>
+
+    <xacro:if value="$(arg lms1xx_enable)">
+      <xacro:sick_lms1xx_mount prefix="front" parent="base_link" topic="/sensors/lidar_$(arg lms1xx_num)/scan" tower="0" robot_namespace="/">
+        <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
+      </xacro:sick_lms1xx_mount>
     </xacro:if>
 
     <xacro:if value="$(arg enable_docking)">

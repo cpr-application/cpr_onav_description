@@ -61,7 +61,7 @@
     </joint>
 
     <!-- Velodyne Link -->
-    <xacro:VLP-16 name="velodyne" parent="base_link" topic="/sensors/lidar/${vlp_num}/pointcloud">
+    <xacro:VLP-16 name="velodyne" parent="base_link" topic="/sensors/lidar_${vlp_num}/pointcloud">
       <origin xyz="${vlp_xyz}" rpy="${vlp_rpy}" />
     </xacro:VLP-16>
 
