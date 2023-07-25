@@ -185,8 +185,14 @@
 
       <!-- 2D LiDAR(s) Link -->
 
+      <xacro:if value="$(arg lms1xx_enable)">
+        <xacro:sick_lms1xx_mount prefix="front" parent="base_link" topic="/sensors/lidar_$(arg lms1xx_num)/scan" tower="0" robot_namespace="/">
+          <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
+        </xacro:sick_lms1xx_mount>
+      </xacro:if>
+
       <xacro:if value="$(arg hokuyo_enable)">
-        <xacro:hokuyo_ust10_mount prefix="front_laser" parent_link="base_link" topic="/sensors/lidar_$(arg hokuyo_num)/scan">
+        <xacro:hokuyo_ust10_mount prefix="front" parent_link="base_link" topic="/sensors/lidar_$(arg hokuyo_num)/scan">
             <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
         </xacro:hokuyo_ust10_mount>
       </xacro:if>
@@ -208,7 +214,7 @@
       </xacro:if>
 
       <xacro:if value="$(arg rear_hokuyo_enable)">
-        <xacro:hokuyo_ust10_mount prefix="rear_laser" parent_link="base_link" topic="/sensors/lidar_$(arg rear_hokuyo_num)/scan">
+        <xacro:hokuyo_ust10_mount prefix="rear" parent_link="base_link" topic="/sensors/lidar_$(arg rear_hokuyo_num)/scan">
             <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
         </xacro:hokuyo_ust10_mount>
       </xacro:if>
@@ -238,12 +244,6 @@
       <!-- Optional for OEM platforms or additional sensors customers want to use as inputs to OutdoorNav -->
       <xacro:include filename="$(arg onav_urdf_extras)" />
 
-    </xacro:if>
-
-    <xacro:if value="$(arg lms1xx_enable)">
-      <xacro:sick_lms1xx_mount prefix="front" parent="base_link" topic="/sensors/lidar_$(arg lms1xx_num)/scan" tower="0" robot_namespace="/">
-        <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
-      </xacro:sick_lms1xx_mount>
     </xacro:if>
 
     <xacro:if value="$(arg enable_docking)">
