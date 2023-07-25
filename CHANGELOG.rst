@@ -2,6 +2,11 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix: move lms1xx link back into correct location. this bug was resolve in the intall script. update hokuyo prefix
+* Contributors: José Mastrangelo
+
 0.1.2 (2023-06-05)
 ------------------
 * modified sensor topic names. and move laser out of block as a temp fix
