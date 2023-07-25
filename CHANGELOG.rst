@@ -2,8 +2,8 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.3 (2023-07-25)
+------------------
 * fix: move lms1xx link back into correct location. this bug was resolve in the intall script. update hokuyo prefix
 * Contributors: José Mastrangelo
 
