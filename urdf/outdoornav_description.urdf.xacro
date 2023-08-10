@@ -112,12 +112,12 @@
       </xacro:standard_kit>
     </xacro:if>
 
-    <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
-    <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
-    <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
-    <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
     <!-- Custom configuration -->
     <xacro:if value="${outdoornav_configuration == 'custom'}">
+      <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+      <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
+      <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
+      <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
 
       <!-- Position GPS (Duro) -->
       <xacro:if value="$(arg swiftnav_position_enable)">
