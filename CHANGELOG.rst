@@ -7,8 +7,8 @@ Changelog for package cpr_onav_description
 * fix: move lms1xx link back into correct location. this bug was resolve in the intall script. update hokuyo prefix
 * Contributors: José Mastrangelo
 
-Forthcoming
------------
+0.1.4 (2023-08-10)
+------------------
 * fix urdf issue related to including multiple realsense cameras. moved all includes into custom block. each of the standard/starter sub-urdfs have their own include lines for the required sensors.
 * 0.1.3
 * Changes.
