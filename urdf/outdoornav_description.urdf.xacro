@@ -127,25 +127,20 @@
       <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/d435_gazebo.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/axis_q62.urdf.xacro" />
+      <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/gnss_antenna.urdf.xacro" />
 
       <!-- Main backpack shell & mast assembly -->
       <xacro:include filename="$(find cpr_onav_description)/urdf/husky_observer.urdf.xacro" />
 
       <!-- Position GPS (Duro) -->
-      <link name="gps_position_link"/>
-      <joint name="gps_position_to_base" type="fixed">
-        <parent link="base_link" />
-        <child link="gps_position_link" />
+      <xacro:gnss_antenna name="gps_position" parent="base_link" gps_num="0">
         <origin xyz="$(arg swiftnav_position_xyz)" rpy="$(arg swiftnav_position_rpy)"/>
-      </joint>
+      </xacro:gnss_antenna>
 
       <!-- Heading GPS -->
-      <link name="gps_heading_link"/>
-      <joint name="gps_heading_to_base" type="fixed">
-        <parent link="base_link" />
-        <child link="gps_heading_link" />
+      <xacro:gnss_antenna name="gps_heading" parent="base_link" gps_num="1">
         <origin xyz="$(arg swiftnav_heading_xyz)" rpy="$(arg swiftnav_heading_rpy)"/>
-      </joint>
+      </xacro:gnss_antenna>
 
       <!-- Microstrain Link -->
       <link name="microstrain_link"/>

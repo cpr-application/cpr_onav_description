@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:macro name="gnss_antenna" params="parent name gps_num *origin">
+    <link name="${name}_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://cpr_onav_description/meshes/gnss_antenna.stl"/>
+        </geometry>
+        <origin xyz="0 0 ${0.065/2}" rpy="0 0 0" />
+        <material name="white">
+          <color rgba="1 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.075" length="0.065" />
+        </geometry>
+        <origin xyz="0 0 ${0.065/2}" rpy="0 0 0" />
+      </collision>
+    </link>
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${parent}" />
+      <child link="${name}_link" />
+      <xacro:insert_block name="origin" />
+    </joint>
+    <gazebo>
+      <plugin name="${name}_gps_position_controller" filename="libhector_gazebo_ros_gps.so">
+        <updateRate>10</updateRate>
+        <robotNamespace>/</robotNamespace>
+        <bodyName>${name}_link</bodyName>
+        <frameId>${name}_link</frameId>
+        <topicName>/sensors/gps_${gps_num}/fix</topicName>
+        <velocityTopicName>/sensors/gps_${gps_num}/vel</velocityTopicName>
+        <referenceLatitude>$(optenv GAZEBO_WORLD_LAT 43.50076203)</referenceLatitude>
+        <referenceLongitude>$(optenv GAZEBO_WORLD_LON -80.54629721)</referenceLongitude>
+        <referenceHeading>90</referenceHeading>
+        <referenceAltitude>0</referenceAltitude>
+        <drift>0.0001 0.0001 0.0001</drift>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+</robot>
