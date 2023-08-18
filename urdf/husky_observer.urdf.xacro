@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://wiki.ros.org.xacro">
+  <link name="backpack_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cpr_onav_description/meshes/observer_backpack_shell.stl" />
+      </geometry>
+      <material name="yellow" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.81 0.56 0.20" />
+      </geometry>
+      <origin xyz="0 0 0.10" rpy="0 0 0" />
+    </collision>
+  </link>
+  <joint name="backpack_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="backpack_link" />
+    <origin xyz="0 0 0.227" />
+  </joint>
+  <gazebo reference="backpack_link">
+    <material>Gazebo/DarkYellow</material>
+  </gazebo>
+
+  <link name="masts_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://cpr_onav_description/meshes/observer_backpack_masts.stl"/>
+      </geometry>
+      <material name="black" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+
+    <!--
+      Simplify the geometry discrete box colliders
+    -->
+    <collision>
+      <!-- vertical mast assembly -->
+      <geometry>
+        <box size="0.05 0.345 0.485" />
+      </geometry>
+      <origin xyz="-0.26 0 0.4425" />
+    </collision>
+    <collision>
+      <!-- horizontal mast assembly -->
+      <geometry>
+        <box size="0.05 0.76 0.065" />
+      </geometry>
+      <origin xyz="-0.26 0 0.6525" />
+    </collision>
+    <collision>
+      <!-- antennas, stack light -->
+      <geometry>
+        <box size="0.115 0.26 0.18" />
+      </geometry>
+      <origin xyz="-0.28 0 0.7675" />
+    </collision>
+    <collision>
+      <!-- camera mount -->
+      <geometry>
+        <box size="0.25 0.25 0.16" />
+      </geometry>
+      <origin xyz="0 0 0.27" />
+    </collision>
+  </link>
+  <joint name="masts_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="masts_link" />
+    <origin xyz="0 0 0.232" />
+  </joint>
+  <gazebo reference="masts_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <!-- Wibotic charging coil -->
+  <link name="charger_mount_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://husky_observer_description/meshes/wibotic.stl" />
+      </geometry>
+      <material name="black" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://husky_observer_description/meshes/wibotic.stl" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </collision>
+  </link>
+  <gazebo reference="charger_mount_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  <joint name="charger_mount_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="charger_mount_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+</robot>
