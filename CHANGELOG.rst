@@ -2,10 +2,13 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.1.3 (2023-07-25)
-------------------
-* fix: move lms1xx link back into correct location. this bug was resolve in the intall script. update hokuyo prefix
-* Contributors: José Mastrangelo
+Forthcoming
+-----------
+* Add support for Husky Observer
+* Add a new macro for the GNSS antennas, including collision bodies
+* Add Husky Observer backpack model, Q62 meshes, support for `observer` configuration
+* Fix the path for the Hokuyo mesh, add simplified collision geometry
+* Contributors: Chris Iverach-Brereton
 
 0.1.4 (2023-08-10)
 ------------------
@@ -14,6 +17,11 @@ Changelog for package cpr_onav_description
 * Changes.
 * fix: move lms1xx link back into correct location. this bug was resolve in the intall script. update hokuyo prefix
 * Contributors: José Mastrangelo, Tony Baltovski
+
+0.1.3 (2023-07-25)
+------------------
+* fix: move lms1xx link back into correct location. this bug was resolve in the intall script. update hokuyo prefix
+* Contributors: José Mastrangelo
 
 0.1.2 (2023-06-05)
 ------------------
