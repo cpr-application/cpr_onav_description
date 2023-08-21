@@ -2,8 +2,8 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.5 (2023-08-21)
+------------------
 * Add support for Husky Observer
 * Add a new macro for the GNSS antennas, including collision bodies
 * Add Husky Observer backpack model, Q62 meshes, support for `observer` configuration
