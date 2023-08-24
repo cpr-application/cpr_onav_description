@@ -2,6 +2,11 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix the path to the wibotic antenna mesh
+* Contributors: Chris Iverach-Brereton
+
 0.1.5 (2023-08-21)
 ------------------
 * Add support for Husky Observer
