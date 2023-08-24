@@ -2,8 +2,8 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.6 (2023-08-24)
+------------------
 * Fix the path to the wibotic antenna mesh
 * Contributors: Chris Iverach-Brereton
 
