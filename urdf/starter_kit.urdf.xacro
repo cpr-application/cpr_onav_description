@@ -3,13 +3,14 @@
   <xacro:macro name="starter_kit" params="name parent starter_kit_xyz starter_kit_rpy ublox_xyz ublox_rpy phidget_spatial_xyz phidget_spatial_rpy d435_xyz d435_rpy rear_d435_xyz rear_d435_rpy">
 
     <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+    <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/d435_gazebo.urdf.xacro" />
 
     <link name="${name}_link">
       <visual>
         <geometry>
           <mesh filename="package://cpr_onav_description/meshes/starter_kit.stl" scale="0.001 0.001 0.001" />
         </geometry>
-        <material name="yellow" />        
+        <material name="yellow" />
         <origin xyz="0 0 0" rpy="0 0 0" />
       </visual>
       <collision>
@@ -61,11 +62,13 @@
     <xacro:sensor_d435 name="front_d435" parent="${name}_link" use_mesh="true">
       <origin xyz="${d435_xyz}" rpy="${d435_rpy}"/>
     </xacro:sensor_d435>
+    <xacro:d435_gazebo name="front_d435" topic_n="0" />
 
     <!-- Rear Realsense D435 -->
     <xacro:sensor_d435 name="rear_d435" parent="${name}_link" use_mesh="true">
       <origin xyz="${rear_d435_xyz}" rpy="${rear_d435_rpy}"/>
     </xacro:sensor_d435>
+    <xacro:d435_gazebo name="rear_d435" topic_n="1" />
 
   </xacro:macro>
 </robot>
