@@ -50,4 +50,3 @@ export HUSKY_FRONT_BUMPER=true
 export HUSKY_REAR_BUMPER=true
 export HUSKY_TOP_PLATE_ENABLED=false
 export HUSKY_USER_RAIL_ENABLED=true
-export HUSKY_URDF_EXTRAS=$(catkin_find cpr_onav_description urdf/outdoornav_description.urdf.xacro --first-only)
