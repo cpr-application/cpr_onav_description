@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>cpr_onav_description</name>
-  <version>0.1.6</version>
+  <version>0.1.7</version>
   <description>Clearpath OutdoorNav URDF description</description>
 
   <author email="jmastrangelo@clearpathrobotics.com">José Mastrangelo</author>

@@ -2,8 +2,8 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.7 (2023-09-08)
+------------------
 * Expand the readme, add setup scripts for the starter kit on Jackal, Warthog, and Husky.
 * Add setup script for the Husky Observer
 * Add the RealSense gazebo plugins to the starter kit
