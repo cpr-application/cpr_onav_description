@@ -2,6 +2,13 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Expand the readme, add setup scripts for the starter kit on Jackal, Warthog, and Husky.
+* Add setup script for the Husky Observer
+* Add the RealSense gazebo plugins to the starter kit
+* Contributors: Chris Iverach-Brereton
+
 0.1.6 (2023-08-24)
 ------------------
 * Fix the path to the wibotic antenna mesh
