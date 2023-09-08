@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<!--
+  Launch file for loading the PID controllers for the pan & tilt joints in the Husky Observer PTZ camera
+-->
+<launch>
+  <rosparam command="load" file="$(find cpr_onav_description)/config/gazebo_ptz_controllers.yaml" />
+  <node name="ptz_action_server_spawner" pkg="controller_manager" type="spawner"
+        args="pan_position_controller tilt_position_controller"/>
+</launch>

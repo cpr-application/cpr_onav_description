@@ -1,0 +1,26 @@
+#!/bin/bash
+export UBLOX_ENABLE_DRIVER=true
+export UBLOX_POSITION_GPS_XYZ="0.0 0.0 0.17574"
+export UBLOX_POSITION_GPS_RPY="0 0 0"
+
+export D435_ENABLE_DRIVER=true
+export D435_XYZ="0.12982 0.0 0.09168"
+export D435_RPY="0 0 0"
+export D435_NUM=0
+
+export REAR_D435_ENABLE_DRIVER=true
+export REAR_D435_XYZ="-0.12982 0.0 0.09168"
+export REAR_D435_RPY="0 0 3.14159"
+export REAR_D435_NUM=1
+
+export PHIDGET_ENABLE_DRIVER=true
+export PHIDGET_XYZ="0.03911 0.0 0.08364"
+export PHIDGET_RPY="0 0 0"
+
+export STARTER_KIT_XYZ="0 0 0.184"
+export STARTER_KIT_RPY="0 0 0"
+
+
+# jackal_description envars
+export OUTDOORNAV_ENABLED=true
+export OUTDOORNAV_CONFIGURATION=starter
