@@ -77,6 +77,7 @@
     <xacro:arg name="rear_d435_num"            default="$(optenv REAR_D435_NUM 1)" />
 
     <xacro:arg name="axis_ptz_enable"          default="$(optenv AXIS_PTZ_ENABLE_DRIVER false)" />
+    <xacro:arg name="axis_q62_enable"          default="$(optenv AXIS_Q62_ENABLE false)" />
     <xacro:arg name="axis_ptz_num"             default="$(optenv AXIS_PTZ_NUM 0)" />
     <xacro:arg name="axis_q62_xyz"             default="$(optenv AXIS_Q62_XYZ 0 0 0)" />
     <xacro:arg name="axis_q62_rpy"             default="$(optenv AXIS_Q62_RPY 0 0 0)" />
@@ -317,9 +318,11 @@
 
       <!-- Axis Q62 PTZ camera -->
       <xacro:if value="$(arg axis_ptz_enable)">
-        <xacro:axis_q62 prefix="ptz_camera" parent="base_link" axis_ptz_num="$(arg axis_ptz_num)">
-          <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
-        </xacro:axis_q62>
+        <xacro:if value="$(arg axis_q62_enable)">
+          <xacro:axis_q62 prefix="ptz_camera" parent="base_link" axis_ptz_num="$(arg axis_ptz_num)">
+            <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
+          </xacro:axis_q62>
+        </xacro:if>
       </xacro:if>
 
       <!-- Optional for OEM platforms or additional sensors customers want to use as inputs to OutdoorNav -->
