@@ -2,6 +2,11 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Don't pull in axis q62 meshes for all axis ptz camera integrations; a new mesh for dome-style cameras will be added in a future release
+* Contributors: José Mastrangelo
+
 0.1.7 (2023-09-08)
 ------------------
 * Expand the readme, add setup scripts for the starter kit on Jackal, Warthog, and Husky.
