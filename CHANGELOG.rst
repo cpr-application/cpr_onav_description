@@ -2,8 +2,8 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.9 (2023-09-29)
+------------------
 * Add the ground truth odometry plugin for simulation support
 * Reduce the target FPS of the RealSense simulations to 6FPS, to match with physical hardware configuration
 * Contributors: Chris Iverach-Brereton
