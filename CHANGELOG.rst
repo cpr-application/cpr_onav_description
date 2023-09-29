@@ -2,6 +2,12 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add the ground truth odometry plugin for simulation support
+* Reduce the target FPS of the RealSense simulations to 6FPS, to match with physical hardware configuration
+* Contributors: Chris Iverach-Brereton
+
 0.1.8 (2023-09-18)
 ------------------
 * Don't pull in axis q62 meshes for all axis ptz camera integrations; a new mesh for dome-style cameras will be added in a future release
