@@ -340,4 +340,15 @@
     </xacro:if>
 
   </xacro:macro>
+
+  <!-- Ground truth odometry for simulation -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_p3d.so" name="ground_truth_odom">
+      <updateRate>100.0</updateRate>
+      <bodyName>base_link</bodyName>
+      <topicName>/gazebo/odom</topicName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <frameName>world</frameName>
+    </plugin>
+  </gazebo>
 </robot>
