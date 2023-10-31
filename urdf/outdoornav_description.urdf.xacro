@@ -151,10 +151,37 @@
         <origin xyz="$(arg microstrain_xyz)" rpy="$(arg microstrain_rpy)"/>
       </joint>
 
-      <!-- Velodyne Link -->
-      <xacro:VLP-16 name="velodyne" parent="base_link" topic="/sensors/lidar_$(arg vlp_num)/pointcloud">
-        <origin xyz="$(arg vlp_xyz)" rpy="$(arg vlp_rpy)" />
-      </xacro:VLP-16>
+      <!--
+          Velodyne VLP-16 in the tower
+          The 3D lidar can be a CPU hog, especially in Docker where GPU support can't be used. Therefore we expose
+          a lot of the low-level lidar parameters so we can fine-tune the lidar's performance if needed
+
+          Settings that are different from the VLP-16 defaults are noted with a comment. Other settings are unchanged.
+        -->
+      <xacro:property name="vertical_scan_min_h_angle" value="$(optenv CPR_SIMULATION_3D_LIDAR_MIN_H_ANGLE -3.1415926535897931)" />
+      <xacro:property name="vertical_scan_max_h_angle" value="$(optenv CPR_SIMULATION_3D_LIDAR_MAX_H_ANGLE  3.1415926535897931)" />
+      <xacro:property name="vertical_scan_min_v_angle" value="$(optenv CPR_SIMULATION_3D_LIDAR_MIN_V_ANGLE -0.2617993877991494)" />
+      <xacro:property name="vertical_scan_max_v_angle" value="$(optenv CPR_SIMULATION_3D_LIDAR_MAX_V_ANGLE  0.2617993877991494)" />
+      <xacro:property name="num_samples"               value="$(optenv CPR_SIMULATION_3D_LIDAR_SAMPLES      720)" />  <!-- VLP-16 default: 1875 -->
+      <xacro:property name="num_rings"                 value="$(optenv CPR_SIMULATION_3D_LIDAR_RINGS        8)" />    <!-- VLP-16 default: 16 -->
+      <xacro:property name="resolution"                value="$(optenv CPR_SIMULATION_3D_LIDAR_RESOLUTION   0.01)" /> <!-- VLP-16 default: 0.001 -->
+      <xacro:property name="lidar_hz"                  value="$(optenv CPR_SIMULATION_3D_LIDAR_HZ           5)" />    <!-- VLP-16 default: 10 -->
+      <xacro:property name="enable_gpu"                value="$(optenv CPR_SIMULATION_3D_LIDAR_ENABLE_GPU   false)" />
+      <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/3d_lidar.urdf.xacro" />
+      <xacro:if value="$(optenv CPR_SIMULATION_ENABLE_3D_LIDAR 1)">
+        <xacro:custom_velodyne name="velodyne" parent="base_link" topic="/sensors/lidar_$(arg vlp_num)/pointcloud"
+                               min_v_angle="${vertical_scan_min_v_angle}"
+                               max_v_angle="${vertical_scan_max_v_angle}"
+                               min_h_angle="${vertical_scan_min_h_angle}"
+                               max_h_angle="${vertical_scan_max_h_angle}"
+                               resolution="${resolution}"
+                               hz="${lidar_hz}"
+                               lasers="${num_rings}"
+                               samples="${num_samples}"
+                               gpu="${enable_gpu}">
+          <origin xyz="$(arg vlp_xyz)" rpy="$(arg vlp_rpy)" />
+        </xacro:custom_velodyne>
+      </xacro:if>
 
       <!-- 2D LiDAR(s) Link -->
       <xacro:hokuyo_ust10_mount prefix="front" parent_link="base_link" topic="/sensors/lidar_$(arg hokuyo_num)/scan">
