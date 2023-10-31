@@ -2,8 +2,8 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.10 (2023-10-31)
+-------------------
 * Add: Custom 3d_lidar.urdf.xacro for simulating VLP16 / 3d lidars
 * Mod: Decrease Hokuyo update rate from 50->10 Hz
 * Contributors: Stephen Phillips
