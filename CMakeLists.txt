@@ -6,6 +6,6 @@ find_package(catkin REQUIRED)
 catkin_package()
 
 install(
-  DIRECTORY config launch meshes scripts urdf
+  DIRECTORY assets config launch meshes scripts urdf
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
