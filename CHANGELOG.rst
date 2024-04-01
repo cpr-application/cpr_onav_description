@@ -2,6 +2,12 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added teleop urdf functionality
+* Add the top-down SVGs for Husky Observer
+* Contributors: Chris Iverach-Brereton, José Mastrangelo
+
 0.1.10 (2023-10-31)
 -------------------
 * Add: Custom 3d_lidar.urdf.xacro for simulating VLP16 / 3d lidars
