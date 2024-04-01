@@ -2,8 +2,8 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.11 (2024-04-01)
+-------------------
 * Added teleop urdf functionality
 * Add the top-down SVGs for Husky Observer
 * Contributors: Chris Iverach-Brereton, José Mastrangelo
