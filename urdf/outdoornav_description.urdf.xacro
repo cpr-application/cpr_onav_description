@@ -211,7 +211,7 @@
     </xacro:if>
 
     <!-- Custom configuration -->
-    <xacro:if value="${outdoornav_configuration == 'custom'}">
+    <xacro:if value="${outdoornav_configuration == 'custom' or outdoornav_configuration == 'teleop'}">
       <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
