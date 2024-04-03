@@ -57,6 +57,24 @@
       </geometry>
       <origin xyz="-0.28 0 0.7675" />
     </collision>
+    <visual>
+      <geometry>
+        <cylinder radius="0.036" length="0.045" />
+      </geometry>
+      <material name="orange_glow">
+        <color rgba="1 0.8 0 1" />
+      </material>
+      <origin xyz="-0.27 0 0.75" rpy="0 0 0" />
+    </visual>
+    <visual>
+      <geometry>
+        <cylinder radius="0.036" length="0.064" />
+      </geometry>
+      <material name="white_glow">
+        <color rgba="1 1 1 1" />
+      </material>
+      <origin xyz="-0.27 0 0.827" rpy="0 0 0" />
+    </visual>
     <collision>
       <!-- camera mount -->
       <geometry>
