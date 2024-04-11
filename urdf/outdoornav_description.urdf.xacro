@@ -82,6 +82,10 @@
     <xacro:arg name="axis_q62_xyz"             default="$(optenv AXIS_Q62_XYZ 0 0 0)" />
     <xacro:arg name="axis_q62_rpy"             default="$(optenv AXIS_Q62_RPY 0 0 0)" />
 
+    <xacro:arg name="xvn_enable"               default="$(optenv XVN_ENABLE_DRIVER false)" />
+    <xacro:arg name="xvn_xyz"                  default="$(optenv XVN_XYZ 0 0 0)" />
+    <xacro:arg name="xvn_rpy"                  default="$(optenv XVN_RPY 0 0 0)" />
+
     <xacro:arg name="onav_urdf_extras"         default="$(optenv OUTDOORNAV_URDF_EXTRAS empty.urdf)" />
 
     <xacro:arg name="enable_docking"           default="$(optenv OUTDOORNAV_ENABLE_DOCKING false)" />
@@ -246,6 +250,15 @@
           <parent link="base_link" />
           <child link="gps_position_link" />
           <origin xyz="$(arg ublox_xyz)" rpy="$(arg ublox_rpy)"/>
+        </joint>
+      </xacro:if>
+
+      <xacro:if value="$(arg xvn_enable)">
+        <link name="xvn_link"/>
+        <joint name="xvn_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="xvn_link" />
+          <origin xyz="$(arg xvn_xyz)" rpy="$(arg xvn_rpy)"/>
         </joint>
       </xacro:if>
 
