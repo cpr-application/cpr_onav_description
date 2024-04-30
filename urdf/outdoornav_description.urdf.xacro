@@ -257,7 +257,21 @@
       </xacro:if>
 
       <xacro:if value="$(arg xvn_enable)">
-        <link name="xvn_link"/>
+        <link name="xvn_link">
+          <visual>
+            <geometry>
+              <mesh filename="package://cpr_onav_description/meshes/xvn.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+            <material name="yellow" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+          </visual>
+          <collision>
+            <geometry>
+              <mesh filename="package://cpr_onav_description/meshes/zvn.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0 " />
+          </collision>
+        </link>
         <joint name="xvn_to_base" type="fixed">
           <parent link="base_link" />
           <child link="xvn_link" />
