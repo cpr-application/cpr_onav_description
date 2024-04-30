@@ -317,7 +317,7 @@
           <xacro:hokuyo_ust10_mount prefix="front" parent_link="base_link" topic="/sensors/lidar_$(arg hokuyo_num)/scan">
               <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
           </xacro:hokuyo_ust10_mount>
-        </xacro:if>
+        </xacro:unless>
       </xacro:if>
 
       <xacro:if value="$(arg outdoorscan_enable)">
@@ -346,7 +346,7 @@
           <xacro:hokuyo_ust10_mount prefix="rear" parent_link="base_link" topic="/sensors/lidar_$(arg rear_hokuyo_num)/scan">
               <origin xyz="$(arg rear_hokuyo_xyz)" rpy="$(arg rear_hokuyo_rpy)" />
           </xacro:hokuyo_ust10_mount>
-        </xacro:if>
+        </xacro:unless>
       </xacro:if>
 
       <xacro:if value="$(arg rear_outdoorscan_enable)">
