@@ -257,12 +257,13 @@
       </xacro:if>
 
       <xacro:if value="$(arg xvn_enable)">
+        <material name="silver"> <color rgba="${192/255} ${192/255} ${192/255} 1.0"/> </material>
         <link name="xvn_link">
           <visual>
             <geometry>
               <mesh filename="package://cpr_onav_description/meshes/xvn.stl" scale="0.001 0.001 0.001" />
             </geometry>
-            <material name="yellow" />
+            <material name="silver" />
             <origin xyz="0 0 0" rpy="0 0 0" />
           </visual>
           <collision>
