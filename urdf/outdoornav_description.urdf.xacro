@@ -322,13 +322,13 @@
       <!-- Rear 2D LiDAR(s) Link -->
       <xacro:if value="$(arg rear_lms1xx_enable)">
         <xacro:sick_lms1xx_mount prefix="rear" parent="base_link" topic="/sensors/lidar_$(arg rear_lms1xx_num)/scan" tower="0" robot_namespace="/">
-          <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
+          <origin xyz="$(arg rear_lms1xx_xyz)" rpy="$(arg rear_lms1xx_rpy)"/>
         </xacro:sick_lms1xx_mount>
       </xacro:if>
 
       <xacro:if value="$(arg rear_hokuyo_enable)">
         <xacro:hokuyo_ust10_mount prefix="rear" parent_link="base_link" topic="/sensors/lidar_$(arg rear_hokuyo_num)/scan">
-            <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
+            <origin xyz="$(arg rear_hokuyo_xyz)" rpy="$(arg rear_hokuyo_rpy)" />
         </xacro:hokuyo_ust10_mount>
       </xacro:if>
 
