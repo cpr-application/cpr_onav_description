@@ -2,6 +2,9 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="outdoornav_sensors">
   <xacro:macro name="outdoornav_sensors" params="outdoornav_configuration">
 
+    <xacro:arg name="jackal_front_fender"      default="$(optenv JACKAL_FRONT_ACCESSORY_FENDER false)" />
+    <xacro:arg name="jackal_rear_fender"       default="$(optenv JACKAL_REAR_ACCESSORY_FENDER false)" />
+
     <xacro:arg name="starter_kit_xyz"          default="$(optenv STARTER_KIT_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="starter_kit_rpy"          default="$(optenv STARTER_KIT_RPY 0.0 0.0 0.0)" />
 
@@ -305,9 +308,16 @@
       </xacro:if>
 
       <xacro:if value="$(arg hokuyo_enable)">
-        <xacro:hokuyo_ust10_mount prefix="front" parent_link="base_link" topic="/sensors/lidar_$(arg hokuyo_num)/scan">
-            <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
-        </xacro:hokuyo_ust10_mount>
+        <xacro:if value="$(arg jackal_front_fender)">
+          <xacro:hokuyo_ust10_mount prefix="front" parent_link="front_fender_accessory_link" topic="/sensors/lidar_$(arg hokuyo_num)/scan">
+              <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
+          </xacro:hokuyo_ust10_mount>
+        </xacro:if>
+        <xacro:unless value="$(arg jackal_front_fender)">
+          <xacro:hokuyo_ust10_mount prefix="front" parent_link="base_link" topic="/sensors/lidar_$(arg hokuyo_num)/scan">
+              <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
+          </xacro:hokuyo_ust10_mount>
+        </xacro:if>
       </xacro:if>
 
       <xacro:if value="$(arg outdoorscan_enable)">
@@ -327,9 +337,16 @@
       </xacro:if>
 
       <xacro:if value="$(arg rear_hokuyo_enable)">
-        <xacro:hokuyo_ust10_mount prefix="rear" parent_link="base_link" topic="/sensors/lidar_$(arg rear_hokuyo_num)/scan">
-            <origin xyz="$(arg rear_hokuyo_xyz)" rpy="$(arg rear_hokuyo_rpy)" />
-        </xacro:hokuyo_ust10_mount>
+        <xacro:if value="$(arg jackal_rear_fender)">
+          <xacro:hokuyo_ust10_mount prefix="rear" parent_link="rear_fender_accessory_link" topic="/sensors/lidar_$(arg rear_hokuyo_num)/scan">
+              <origin xyz="$(arg rear_hokuyo_xyz)" rpy="$(arg rear_hokuyo_rpy)" />
+          </xacro:hokuyo_ust10_mount>
+        </xacro:if>
+        <xacro:unless value="$(arg jackal_rear_fender)">
+          <xacro:hokuyo_ust10_mount prefix="rear" parent_link="base_link" topic="/sensors/lidar_$(arg rear_hokuyo_num)/scan">
+              <origin xyz="$(arg rear_hokuyo_xyz)" rpy="$(arg rear_hokuyo_rpy)" />
+          </xacro:hokuyo_ust10_mount>
+        </xacro:if>
       </xacro:if>
 
       <xacro:if value="$(arg rear_outdoorscan_enable)">
