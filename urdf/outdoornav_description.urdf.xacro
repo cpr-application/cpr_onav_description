@@ -77,10 +77,12 @@
     <xacro:arg name="rear_d435_num"            default="$(optenv REAR_D435_NUM 1)" />
 
     <xacro:arg name="axis_ptz_enable"          default="$(optenv AXIS_PTZ_ENABLE_DRIVER false)" />
-    <xacro:arg name="axis_q62_enable"          default="$(optenv AXIS_PTZ_Q62_ENABLE_DRIVER false)" />
     <xacro:arg name="axis_ptz_num"             default="$(optenv AXIS_PTZ_NUM 0)" />
     <xacro:arg name="axis_ptz_xyz"             default="$(optenv AXIS_PTZ_XYZ 0 0 0)" />
     <xacro:arg name="axis_ptz_rpy"             default="$(optenv AXIS_PTZ_RPY 0 0 0)" />
+
+    <xacro:arg name="axis_q62_enable"          default="$(optenv AXIS_PTZ_Q62_ENABLE_DRIVER false)" />
+    <xacro:arg name="axis_q62_num"             default="$(optenv AXIS_Q62_NUM 0)" />
     <xacro:arg name="axis_q62_xyz"             default="$(optenv AXIS_Q62_XYZ 0 0 0)" />
     <xacro:arg name="axis_q62_rpy"             default="$(optenv AXIS_Q62_RPY 0 0 0)" />
 
@@ -212,7 +214,7 @@
       <xacro:d435_gazebo name="rear_d435" topic_n="$(arg rear_d435_num)" />
 
       <!-- Axis Q62 PTZ camera -->
-      <xacro:axis_q62 prefix="ptz_camera" parent="base_link" axis_ptz_num="$(arg axis_ptz_num)">
+      <xacro:axis_q62 prefix="ptz_camera" parent="base_link" axis_q62_num="$(arg axis_q62_num)">
         <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
       </xacro:axis_q62>
     </xacro:if>
@@ -368,7 +370,7 @@
 
       <!-- Axis Q62 PTZ camera -->
       <xacro:if value="$(arg axis_q62_enable)">
-        <xacro:axis_q62 prefix="ptz_camera" parent="base_link" topic="/sensors/camera_$(arg axis_ptz_num)/image_raw">
+        <xacro:axis_q62 prefix="ptz_camera" parent="base_link" topic="/sensors/camera_$(arg axis_q62_num)/image_raw">
           <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
         </xacro:axis_q62>
       </xacro:if>
