@@ -134,7 +134,7 @@
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
       <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/d435_gazebo.urdf.xacro" />
-      <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/axis_q62.urdf.xacro" />
+      <xacro:include filename="$(find axis_description)/urdf/axis_q62.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/gnss_antenna.urdf.xacro" />
 
       <!-- Main backpack shell & mast assembly -->
@@ -224,7 +224,9 @@
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
       <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/d435_gazebo.urdf.xacro" />
-      <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/axis_q62.urdf.xacro" />
+      <xacro:include filename="$(find axis_description)/urdf/axis_dome_fixed.urdf.xacro" />
+      <xacro:include filename="$(find axis_description)/urdf/axis_dome_ptz.urdf.xacro" />
+      <xacro:include filename="$(find axis_description)/urdf/axis_q62.urdf.xacro" />
 
       <!-- Position GPS (Duro) -->
       <xacro:if value="$(arg swiftnav_position_enable)">
@@ -352,27 +354,21 @@
 
       <!-- Axis PTZ camera -->
       <xacro:if value="$(arg axis_ptz_enable)">
-        <link name="axis_ptz_camera_link"/>
-        <joint name="axis_to_base" type="fixed">
-          <parent link="base_link" />
-          <child link="axis_ptz_camera_link" />
+        <xacro:axis_dome_ptz prefix="axis_ptz_camera" parent="base_link" topic="/sensors/camera_$(arg axis_ptz_num)/image_raw">
           <origin xyz="$(arg axis_ptz_xyz)" rpy="$(arg axis_ptz_rpy)"/>
-        </joint>
+        </xacro:axis_dome_ptz>
       </xacro:if>
 
       <!-- Rear Axis PTZ camera -->
       <xacro:if value="$(arg rear_axis_ptz_enable)">
-        <link name="rear_axis_ptz_camera_link"/>
-        <joint name="rear_axis_to_base" type="fixed">
-          <parent link="base_link" />
-          <child link="rear_axis_ptz_camera_link" />
+        <xacro:axis_dome_ptz prefix="axis_rear_ptz_camera" parent="base_link" topic="/sensors/camera_$(arg rear_axis_ptz_num)/image_raw">
           <origin xyz="$(arg rear_axis_ptz_xyz)" rpy="$(arg rear_axis_ptz_rpy)"/>
-        </joint>
+        </xacro:axis_dome_ptz>
       </xacro:if>
 
       <!-- Axis Q62 PTZ camera -->
       <xacro:if value="$(arg axis_q62_enable)">
-        <xacro:axis_q62 prefix="ptz_camera" parent="base_link" axis_ptz_num="$(arg axis_ptz_num)">
+        <xacro:axis_q62 prefix="ptz_camera" parent="base_link" topic="/sensors/camera_$(arg axis_ptz_num)/image_raw">
           <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
         </xacro:axis_q62>
       </xacro:if>
