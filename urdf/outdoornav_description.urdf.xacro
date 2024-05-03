@@ -77,10 +77,19 @@
     <xacro:arg name="rear_d435_num"            default="$(optenv REAR_D435_NUM 1)" />
 
     <xacro:arg name="axis_ptz_enable"          default="$(optenv AXIS_PTZ_ENABLE_DRIVER false)" />
-    <xacro:arg name="axis_q62_enable"          default="$(optenv AXIS_Q62_ENABLE false)" />
     <xacro:arg name="axis_ptz_num"             default="$(optenv AXIS_PTZ_NUM 0)" />
+    <xacro:arg name="axis_ptz_xyz"             default="$(optenv AXIS_PTZ_XYZ 0 0 0)" />
+    <xacro:arg name="axis_ptz_rpy"             default="$(optenv AXIS_PTZ_RPY 0 0 0)" />
+
+    <xacro:arg name="axis_q62_enable"          default="$(optenv AXIS_PTZ_Q62_ENABLE_DRIVER false)" />
+    <xacro:arg name="axis_q62_num"             default="$(optenv AXIS_Q62_NUM 0)" />
     <xacro:arg name="axis_q62_xyz"             default="$(optenv AXIS_Q62_XYZ 0 0 0)" />
     <xacro:arg name="axis_q62_rpy"             default="$(optenv AXIS_Q62_RPY 0 0 0)" />
+
+    <xacro:arg name="rear_axis_ptz_enable"     default="$(optenv REAR_AXIS_PTZ_ENABLE_DRIVER false)" />
+    <xacro:arg name="rear_axis_ptz_num"        default="$(optenv REAR_AXIS_PTZ_NUM 0)" />
+    <xacro:arg name="rear_axis_ptz_xyz"        default="$(optenv REAR_AXIS_PTZ_XYZ 0 0 0)" />
+    <xacro:arg name="rear_axis_ptz_rpy"        default="$(optenv REAR_AXIS_PTZ_RPY 0 0 0)" />
 
     <xacro:arg name="onav_urdf_extras"         default="$(optenv OUTDOORNAV_URDF_EXTRAS empty.urdf)" />
 
@@ -127,7 +136,7 @@
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
       <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/d435_gazebo.urdf.xacro" />
-      <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/axis_q62.urdf.xacro" />
+      <xacro:include filename="$(find axis_description)/urdf/axis_q62.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/gnss_antenna.urdf.xacro" />
 
       <!-- Main backpack shell & mast assembly -->
@@ -205,7 +214,7 @@
       <xacro:d435_gazebo name="rear_d435" topic_n="$(arg rear_d435_num)" />
 
       <!-- Axis Q62 PTZ camera -->
-      <xacro:axis_q62 prefix="ptz_camera" parent="base_link" axis_ptz_num="$(arg axis_ptz_num)">
+      <xacro:axis_q62 prefix="ptz_camera" parent="base_link" axis_q62_num="$(arg axis_q62_num)">
         <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
       </xacro:axis_q62>
     </xacro:if>
@@ -217,7 +226,9 @@
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
       <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/d435_gazebo.urdf.xacro" />
-      <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/axis_q62.urdf.xacro" />
+      <xacro:include filename="$(find axis_description)/urdf/axis_dome_fixed.urdf.xacro" />
+      <xacro:include filename="$(find axis_description)/urdf/axis_dome_ptz.urdf.xacro" />
+      <xacro:include filename="$(find axis_description)/urdf/axis_q62.urdf.xacro" />
 
       <!-- Position GPS (Duro) -->
       <xacro:if value="$(arg swiftnav_position_enable)">
@@ -343,13 +354,25 @@
         <xacro:d435_gazebo name="rear_d435" topic_n="$(arg rear_d435_num)" />
       </xacro:if>
 
-      <!-- Axis Q62 PTZ camera -->
+      <!-- Axis PTZ camera -->
       <xacro:if value="$(arg axis_ptz_enable)">
-        <xacro:if value="$(arg axis_q62_enable)">
-          <xacro:axis_q62 prefix="ptz_camera" parent="base_link" axis_ptz_num="$(arg axis_ptz_num)">
-            <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
-          </xacro:axis_q62>
-        </xacro:if>
+        <xacro:axis_dome_ptz prefix="axis_ptz_camera" parent="base_link" topic="/sensors/camera_$(arg axis_ptz_num)/image_raw">
+          <origin xyz="$(arg axis_ptz_xyz)" rpy="$(arg axis_ptz_rpy)"/>
+        </xacro:axis_dome_ptz>
+      </xacro:if>
+
+      <!-- Rear Axis PTZ camera -->
+      <xacro:if value="$(arg rear_axis_ptz_enable)">
+        <xacro:axis_dome_ptz prefix="axis_rear_ptz_camera" parent="base_link" topic="/sensors/camera_$(arg rear_axis_ptz_num)/image_raw">
+          <origin xyz="$(arg rear_axis_ptz_xyz)" rpy="$(arg rear_axis_ptz_rpy)"/>
+        </xacro:axis_dome_ptz>
+      </xacro:if>
+
+      <!-- Axis Q62 PTZ camera -->
+      <xacro:if value="$(arg axis_q62_enable)">
+        <xacro:axis_q62 prefix="ptz_camera" parent="base_link" topic="/sensors/camera_$(arg axis_q62_num)/image_raw">
+          <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
+        </xacro:axis_q62>
       </xacro:if>
 
       <!-- Optional for OEM platforms or additional sensors customers want to use as inputs to OutdoorNav -->
