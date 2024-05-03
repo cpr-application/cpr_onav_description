@@ -88,6 +88,10 @@
     <xacro:arg name="xvn_enable"               default="$(optenv XVN_ENABLE_DRIVER false)" />
     <xacro:arg name="xvn_xyz"                  default="$(optenv XVN_XYZ 0 0 0)" />
     <xacro:arg name="xvn_rpy"                  default="$(optenv XVN_RPY 0 0 0)" />
+    <xacro:arg name="xvn_gnss1_xyz"            default="$(optenv XVN_GNSS1_XYZ 0 0 0)" />
+    <xacro:arg name="xvn_gnss1_rpy"            default="$(optenv XVN_GNSS1_RPY 0 0 0)" />
+    <xacro:arg name="xvn_gnss2_xyz"            default="$(optenv XVN_GNSS2_XYZ 0 0 0)" />
+    <xacro:arg name="xvn_gnss2_rpy"            default="$(optenv XVN_GNSS2_RPY 0 0 0)" />
 
     <xacro:arg name="onav_urdf_extras"         default="$(optenv OUTDOORNAV_URDF_EXTRAS empty.urdf)" />
 
@@ -277,6 +281,20 @@
           <parent link="base_link" />
           <child link="xvn_link" />
           <origin xyz="$(arg xvn_xyz)" rpy="$(arg xvn_rpy)"/>
+        </joint>
+
+        <link name="gps_position_link"/>
+        <joint name="xvn_gnss1_base" type="fixed">
+          <parent link="base_link" />
+          <child link="gps_position_link" />
+          <origin xyz="$(arg xvn_gnss1_xyz)" rpy="$(arg xvn_gnss1_rpy)"/>
+        </joint>
+
+        <link name="gps_heading_link"/>
+        <joint name="xvn_gnss2_base" type="fixed">
+          <parent link="base_link" />
+          <child link="gps_heading_link" />
+          <origin xyz="$(arg xvn_gnss2_xyz)" rpy="$(arg xvn_gnss2_rpy)"/>
         </joint>
       </xacro:if>
 
