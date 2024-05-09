@@ -216,7 +216,7 @@
       <!-- Axis Q62 PTZ camera -->
       <xacro:axis_q62 prefix="camera_$(arg axis_q62_num)" parent="base_link" topic="/sensors/camera_$(arg axis_q62_num)/image_raw">
         <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
-      </xacro:axis_q62>W
+      </xacro:axis_q62>
     </xacro:if>
 
     <!-- Custom configuration -->
