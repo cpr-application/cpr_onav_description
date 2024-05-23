@@ -2,6 +2,9 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="outdoornav_sensors">
   <xacro:macro name="outdoornav_sensors" params="outdoornav_configuration">
 
+    <xacro:arg name="jackal_front_fender"      default="$(optenv JACKAL_FRONT_ACCESSORY_FENDER false)" />
+    <xacro:arg name="jackal_rear_fender"       default="$(optenv JACKAL_REAR_ACCESSORY_FENDER false)" />
+
     <xacro:arg name="starter_kit_xyz"          default="$(optenv STARTER_KIT_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="starter_kit_rpy"          default="$(optenv STARTER_KIT_RPY 0.0 0.0 0.0)" />
 
@@ -81,15 +84,23 @@
     <xacro:arg name="axis_ptz_xyz"             default="$(optenv AXIS_PTZ_XYZ 0 0 0)" />
     <xacro:arg name="axis_ptz_rpy"             default="$(optenv AXIS_PTZ_RPY 0 0 0)" />
 
+    <xacro:arg name="rear_axis_ptz_enable"     default="$(optenv REAR_AXIS_PTZ_ENABLE_DRIVER false)" />
+    <xacro:arg name="rear_axis_ptz_num"        default="$(optenv REAR_AXIS_PTZ_NUM 0)" />
+    <xacro:arg name="rear_axis_ptz_xyz"        default="$(optenv REAR_AXIS_PTZ_XYZ 0 0 0)" />
+    <xacro:arg name="rear_axis_ptz_rpy"        default="$(optenv REAR_AXIS_PTZ_RPY 0 0 0)" />
+
     <xacro:arg name="axis_q62_enable"          default="$(optenv AXIS_PTZ_Q62_ENABLE_DRIVER false)" />
     <xacro:arg name="axis_q62_num"             default="$(optenv AXIS_Q62_NUM 0)" />
     <xacro:arg name="axis_q62_xyz"             default="$(optenv AXIS_Q62_XYZ 0 0 0)" />
     <xacro:arg name="axis_q62_rpy"             default="$(optenv AXIS_Q62_RPY 0 0 0)" />
 
-    <xacro:arg name="rear_axis_ptz_enable"     default="$(optenv REAR_AXIS_PTZ_ENABLE_DRIVER false)" />
-    <xacro:arg name="rear_axis_ptz_num"        default="$(optenv REAR_AXIS_PTZ_NUM 0)" />
-    <xacro:arg name="rear_axis_ptz_xyz"        default="$(optenv REAR_AXIS_PTZ_XYZ 0 0 0)" />
-    <xacro:arg name="rear_axis_ptz_rpy"        default="$(optenv REAR_AXIS_PTZ_RPY 0 0 0)" />
+    <xacro:arg name="xvn_enable"               default="$(optenv XVN_ENABLE_DRIVER false)" />
+    <xacro:arg name="xvn_xyz"                  default="$(optenv XVN_XYZ 0 0 0)" />
+    <xacro:arg name="xvn_rpy"                  default="$(optenv XVN_RPY 0 0 0)" />
+    <xacro:arg name="xvn_gnss1_xyz"            default="$(optenv XVN_GNSS1_XYZ 0 0 0)" />
+    <xacro:arg name="xvn_gnss1_rpy"            default="$(optenv XVN_GNSS1_RPY 0 0 0)" />
+    <xacro:arg name="xvn_gnss2_xyz"            default="$(optenv XVN_GNSS2_XYZ 0 0 0)" />
+    <xacro:arg name="xvn_gnss2_rpy"            default="$(optenv XVN_GNSS2_RPY 0 0 0)" />
 
     <xacro:arg name="onav_urdf_extras"         default="$(optenv OUTDOORNAV_URDF_EXTRAS empty.urdf)" />
 
@@ -260,6 +271,44 @@
         </joint>
       </xacro:if>
 
+      <xacro:if value="$(arg xvn_enable)">
+        <material name="silver"> <color rgba="${192/255} ${192/255} ${192/255} 1.0"/> </material>
+        <link name="xvn_link">
+          <visual>
+            <geometry>
+              <mesh filename="package://cpr_onav_description/meshes/xvn.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+            <material name="silver" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+          </visual>
+          <collision>
+            <geometry>
+              <mesh filename="package://cpr_onav_description/meshes/xvn.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0 " />
+          </collision>
+        </link>
+        <joint name="xvn_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="xvn_link" />
+          <origin xyz="$(arg xvn_xyz)" rpy="$(arg xvn_rpy)"/>
+        </joint>
+
+        <link name="gps_position_link"/>
+        <joint name="xvn_gnss1_base" type="fixed">
+          <parent link="base_link" />
+          <child link="gps_position_link" />
+          <origin xyz="$(arg xvn_gnss1_xyz)" rpy="$(arg xvn_gnss1_rpy)"/>
+        </joint>
+
+        <link name="gps_heading_link"/>
+        <joint name="xvn_gnss2_base" type="fixed">
+          <parent link="base_link" />
+          <child link="gps_heading_link" />
+          <origin xyz="$(arg xvn_gnss2_xyz)" rpy="$(arg xvn_gnss2_rpy)"/>
+        </joint>
+      </xacro:if>
+
       <!-- Microstrain Link -->
       <xacro:if value="$(arg microstrain_enable)">
         <link name="microstrain_link"/>
@@ -304,7 +353,7 @@
 
       <xacro:if value="$(arg hokuyo_enable)">
         <xacro:hokuyo_ust10_mount prefix="front" parent_link="base_link" topic="/sensors/lidar_$(arg hokuyo_num)/scan">
-            <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
+          <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
         </xacro:hokuyo_ust10_mount>
       </xacro:if>
 
@@ -320,13 +369,13 @@
       <!-- Rear 2D LiDAR(s) Link -->
       <xacro:if value="$(arg rear_lms1xx_enable)">
         <xacro:sick_lms1xx_mount prefix="rear" parent="base_link" topic="/sensors/lidar_$(arg rear_lms1xx_num)/scan" tower="0" robot_namespace="/">
-          <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
+          <origin xyz="$(arg rear_lms1xx_xyz)" rpy="$(arg rear_lms1xx_rpy)"/>
         </xacro:sick_lms1xx_mount>
       </xacro:if>
 
       <xacro:if value="$(arg rear_hokuyo_enable)">
         <xacro:hokuyo_ust10_mount prefix="rear" parent_link="base_link" topic="/sensors/lidar_$(arg rear_hokuyo_num)/scan">
-            <origin xyz="$(arg hokuyo_xyz)" rpy="$(arg hokuyo_rpy)" />
+          <origin xyz="$(arg rear_hokuyo_xyz)" rpy="$(arg rear_hokuyo_rpy)" />
         </xacro:hokuyo_ust10_mount>
       </xacro:if>
 
