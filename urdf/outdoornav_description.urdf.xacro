@@ -214,7 +214,7 @@
       <xacro:d435_gazebo name="rear_d435" topic_n="$(arg rear_d435_num)" />
 
       <!-- Axis Q62 PTZ camera -->
-      <xacro:axis_q62 prefix="ptz_camera" parent="base_link" axis_q62_num="$(arg axis_q62_num)">
+      <xacro:axis_q62 prefix="camera_$(arg axis_q62_num)" parent="base_link" topic="/sensors/camera_$(arg axis_q62_num)/image_raw">
         <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
       </xacro:axis_q62>
     </xacro:if>
@@ -356,21 +356,21 @@
 
       <!-- Axis PTZ camera -->
       <xacro:if value="$(arg axis_ptz_enable)">
-        <xacro:axis_dome_ptz prefix="axis_ptz_camera" parent="base_link" topic="/sensors/camera_$(arg axis_ptz_num)/image_raw">
+        <xacro:axis_dome_ptz prefix="camera_$(arg axis_ptz_num)" parent="base_link" topic="/sensors/camera_$(arg axis_ptz_num)/image_raw">
           <origin xyz="$(arg axis_ptz_xyz)" rpy="$(arg axis_ptz_rpy)"/>
         </xacro:axis_dome_ptz>
       </xacro:if>
 
       <!-- Rear Axis PTZ camera -->
       <xacro:if value="$(arg rear_axis_ptz_enable)">
-        <xacro:axis_dome_ptz prefix="axis_rear_ptz_camera" parent="base_link" topic="/sensors/camera_$(arg rear_axis_ptz_num)/image_raw">
+        <xacro:axis_dome_ptz prefix="camera_$(arg rear_axis_ptz_num)" parent="base_link" topic="/sensors/camera_$(arg rear_axis_ptz_num)/image_raw">
           <origin xyz="$(arg rear_axis_ptz_xyz)" rpy="$(arg rear_axis_ptz_rpy)"/>
         </xacro:axis_dome_ptz>
       </xacro:if>
 
       <!-- Axis Q62 PTZ camera -->
       <xacro:if value="$(arg axis_q62_enable)">
-        <xacro:axis_q62 prefix="ptz_camera" parent="base_link" topic="/sensors/camera_$(arg axis_q62_num)/image_raw">
+        <xacro:axis_q62 prefix="camera_$(arg axis_q62_num)" parent="base_link" topic="/sensors/camera_$(arg axis_q62_num)/image_raw">
           <origin xyz="$(arg axis_q62_xyz)" rpy="$(arg axis_q62_rpy)" />
         </xacro:axis_q62>
       </xacro:if>
