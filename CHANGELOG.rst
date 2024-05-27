@@ -2,8 +2,8 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.12 (2024-05-27)
+-------------------
 * Fix the Axis camera prefixes so we can more-easily identify the sensor frames
 * Changed prefix for ptz cameras
 * Added antenna links to urdf
