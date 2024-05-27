@@ -2,6 +2,24 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix the Axis camera prefixes so we can more-easily identify the sensor frames
+* Changed prefix for ptz cameras
+* Added antenna links to urdf
+* Change axis_ptz_num to axis_q62_num for Q62 specific entries
+* Use the axis_description package for the camera URDFs, add axis dome camera meshes
+* Add ptz camera links to urdf
+* Added color of xvn unit
+* Fix axis of xvn stl file
+* Added xvn stl to model
+* Revert fender fix. use position relative to base_link
+* Correct unless close
+* Add dependency on jackal fenders
+* Fix rear laser xyz, rpy
+* Added xvn link to urdf
+* Contributors: Chris Iverach-Brereton, José Mastrangelo
+
 0.1.11 (2024-04-01)
 -------------------
 * Added teleop urdf functionality
