@@ -69,6 +69,11 @@
     <xacro:arg name="rear_vlp_xyz"             default="$(optenv REAR_VLP_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="rear_vlp_rpy"             default="$(optenv REAR_VLP_RPY 0.0 0.0 0.0)" />
 
+    <xacro:arg name="hesai_enable"             default="$(optenv HESAI_ENABLE_DRIVER false)" />
+    <xacro:arg name="hesai_xyz"                default="$(optenv HESAI_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="hesai_rpy"                default="$(optenv HESAI_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="hesai_num"                default="$(optenv HESAI_NUM 0)" />
+
     <xacro:arg name="d435_enable"              default="$(optenv D435_ENABLE_DRIVER false)" />
     <xacro:arg name="d435_xyz"                 default="$(optenv D435_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="d435_rpy"                 default="$(optenv D435_RPY 0.0 0.0 0.0)" />
@@ -341,6 +346,16 @@
         <xacro:VLP-16 name="rear_velodyne" parent="base_link" topic="/sensors/lidar_$(arg vlp_num)/pointcloud">
           <origin xyz="$(arg rear_vlp_xyz)" rpy="$(arg rear_vlp_rpy)" />
         </xacro:VLP-16>
+      </xacro:if>
+
+      <!-- Hesai Link -->
+      <xacro:if value="$(arg hesai_enable)">
+        <link name="hesai_lidar"/>
+        <joint name="hesai_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="hesai_lidar" />
+          <origin xyz="$(arg hesai_xyz)" rpy="$(arg hesai_rpy)"/>
+        </joint>
       </xacro:if>
 
       <!-- 2D LiDAR(s) Link -->
