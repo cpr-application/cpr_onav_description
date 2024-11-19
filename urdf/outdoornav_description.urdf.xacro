@@ -21,8 +21,13 @@
     <xacro:arg name="ublox_rpy"                default="$(optenv UBLOX_POSITION_GPS_RPY 0.0 0.0 0.0)" />
 
     <xacro:arg name="microstrain_enable"       default="$(optenv MICROSTRAIN_ENABLE_DRIVER false)" />
+    <xacro:arg name="microstrain_gnss_enable"  default="$(optenv MICROSTRAIN_ENABLE_GNSS false )" />
     <xacro:arg name="microstrain_xyz"          default="$(optenv MICROSTRAIN_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="microstrain_rpy"          default="$(optenv MICROSTRAIN_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="microstrain_gnss1_xyz"    default="$(optenv MICROSTRAIN_GNSS1_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="microstrain_gnss1_rpy"    default="$(optenv MICROSTRAIN_GNSS1_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="microstrain_gnss2_xyz"    default="$(optenv MICROSTRAIN_GNSS2_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="microstrain_gnss2_rpy"    default="$(optenv MICROSTRAIN_GNSS2_RPY 0.0 0.0 0.0)" />
 
     <xacro:arg name="xsens_enable"             default="$(optenv XSENS_ENABLE_DRIVER false)" />
     <xacro:arg name="xsens_xyz"                default="$(optenv XSENS_XYZ 0.0 0.0 0.0)" />
@@ -322,6 +327,21 @@
           <child link="microstrain_link" />
           <origin xyz="$(arg microstrain_xyz)" rpy="$(arg microstrain_rpy)"/>
         </joint>
+
+        <xacro:if value="${arg microstrain_gnss_enable">
+          <link name="gps_position_link"/>
+          <joint name="gnss1_to_microstrain" type="fixed">
+            <parent link="microstrain_link" />
+            <child link="gps_position_link" />
+            <origin xyz="$(arg microstrain_gnss1_xyz)" rpy="$(arg microstrain_gnss1_rpy)"/>
+          </joint>
+          <link name="gps_heading_link"/>
+          <joint name="gnss2_to_microstrain" type="fixed">
+            <parent link="microstrain_link" />
+            <child link="gps_heading_link" />
+            <origin xyz="$(arg microstrain_gnss2_xyz)" rpy="$(arg microstrain_gnss2_rpy)"/>
+          </joint>
+        </xacro:if>
       </xacro:if>
 
       <!-- Xsens Link -->
