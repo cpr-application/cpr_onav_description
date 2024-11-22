@@ -249,6 +249,7 @@
     <!-- Custom configuration -->
     <xacro:if value="${outdoornav_configuration == 'custom' or outdoornav_configuration == 'teleop'}">
       <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+      <xacro:include filename="$(find ouster_description)/urdf/OS1-32.urdf.xacro"/>
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
       <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
@@ -386,7 +387,7 @@
 
       <!-- Ouster Link -->
       <xacro:if value="$(arg ouster_enable)">
-        <xacro:VLP-16 name="os_sensor" parent="base_link" topic_points="/sensors/lidar_$(arg ouster_lidar_num)/pointcloud" topic_imu="/sensors/imu_$(arg ouster_imu_num)/data">
+        <xacro:OS1-32 name="os_sensor" parent="base_link" topic_points="/sensors/lidar_$(arg ouster_lidar_num)/pointcloud" topic_imu="/sensors/imu_$(arg ouster_imu_num)/data">
           <origin xyz="$(arg ouster_xyz)" rpy="$(arg ouster_rpy)" />
         </xacro:VLP-16>
       </xacro:if>
