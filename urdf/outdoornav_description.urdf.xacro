@@ -389,7 +389,7 @@
       <xacro:if value="$(arg ouster_enable)">
         <xacro:OS1-32 name="os_sensor" parent="base_link" topic_points="/sensors/lidar_$(arg ouster_lidar_num)/pointcloud" topic_imu="/sensors/imu_$(arg ouster_imu_num)/data">
           <origin xyz="$(arg ouster_xyz)" rpy="$(arg ouster_rpy)" />
-        </xacro:VLP-16>
+        </xacro:OS1-32>
       </xacro:if>
 
       <!-- 2D LiDAR Link(s) -->
