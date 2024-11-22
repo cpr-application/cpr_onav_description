@@ -79,6 +79,10 @@
     <xacro:arg name="hesai_rpy"                default="$(optenv HESAI_RPY 0.0 0.0 0.0)" />
     <xacro:arg name="hesai_num"                default="$(optenv HESAI_NUM 0)" />
 
+    <xacro:arg name="ouster_enable"            default="$(optenv OUSTER_ENABLE_DRIVER false)" />
+    <xacro:arg name="ouster_xyz"               default="$(optenv OUSTER_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="ouster_rpy"               default="$(optenv OUSTER_RPY 0.0 0.0 0.0)" />
+
     <xacro:arg name="d435_enable"              default="$(optenv D435_ENABLE_DRIVER false)" />
     <xacro:arg name="d435_xyz"                 default="$(optenv D435_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="d435_rpy"                 default="$(optenv D435_RPY 0.0 0.0 0.0)" />
@@ -378,8 +382,17 @@
         </joint>
       </xacro:if>
 
-      <!-- 2D LiDAR(s) Link -->
+      <!-- Ouster Link -->
+      <xacro:if value="$(arg ouster_enable)">
+        <link name="ouster_lidar"/>
+        <joint name="ouster_to_base" type="fixed">
+          <parent link="base_link" />
+          <child link="ouster_lidar" />
+          <origin xyz="$(arg ouster_xyz)" rpy="$(arg ouster_rpy)"/>
+        </joint>
+      </xacro:if>
 
+      <!-- 2D LiDAR Link(s) -->
       <xacro:if value="$(arg lms1xx_enable)">
         <xacro:sick_lms1xx_mount prefix="front" parent="base_link" topic="/sensors/lidar_$(arg lms1xx_num)/scan" tower="0" robot_namespace="/">
           <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
