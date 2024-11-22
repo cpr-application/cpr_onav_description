@@ -328,7 +328,7 @@
           <origin xyz="$(arg microstrain_xyz)" rpy="$(arg microstrain_rpy)"/>
         </joint>
 
-        <xacro:if value="${arg microstrain_gnss_enable">
+        <xacro:if value="$(arg microstrain_gnss_enable)">
           <link name="gps_position_link"/>
           <joint name="gnss1_to_microstrain" type="fixed">
             <parent link="microstrain_link" />
