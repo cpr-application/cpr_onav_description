@@ -21,8 +21,13 @@
     <xacro:arg name="ublox_rpy"                default="$(optenv UBLOX_POSITION_GPS_RPY 0.0 0.0 0.0)" />
 
     <xacro:arg name="microstrain_enable"       default="$(optenv MICROSTRAIN_ENABLE_DRIVER false)" />
+    <xacro:arg name="microstrain_gnss_enable"  default="$(optenv MICROSTRAIN_ENABLE_GNSS false )" />
     <xacro:arg name="microstrain_xyz"          default="$(optenv MICROSTRAIN_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="microstrain_rpy"          default="$(optenv MICROSTRAIN_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="microstrain_gnss1_xyz"    default="$(optenv MICROSTRAIN_GNSS1_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="microstrain_gnss1_rpy"    default="$(optenv MICROSTRAIN_GNSS1_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="microstrain_gnss2_xyz"    default="$(optenv MICROSTRAIN_GNSS2_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="microstrain_gnss2_rpy"    default="$(optenv MICROSTRAIN_GNSS2_RPY 0.0 0.0 0.0)" />
 
     <xacro:arg name="xsens_enable"             default="$(optenv XSENS_ENABLE_DRIVER false)" />
     <xacro:arg name="xsens_xyz"                default="$(optenv XSENS_XYZ 0.0 0.0 0.0)" />
@@ -63,7 +68,7 @@
     <xacro:arg name="vlp_enable"               default="$(optenv VLP_ENABLE_DRIVER false)" />
     <xacro:arg name="vlp_xyz"                  default="$(optenv VLP_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="vlp_rpy"                  default="$(optenv VLP_RPY 0.0 0.0 0.0)" />
-    <xacro:arg name="vlp_num"                  default="$(optenv VLP_NUM 0)" />
+    <xacro:arg name="vlp_num"                  default="$(optenv VLP_LIDAR_NUM 0)" />
 
     <xacro:arg name="rear_vlp_enable"          default="$(optenv REAR_VLP_ENABLE_DRIVER false)" />
     <xacro:arg name="rear_vlp_xyz"             default="$(optenv REAR_VLP_XYZ 0.0 0.0 0.0)" />
@@ -73,6 +78,12 @@
     <xacro:arg name="hesai_xyz"                default="$(optenv HESAI_XYZ 0.0 0.0 0.0)" />
     <xacro:arg name="hesai_rpy"                default="$(optenv HESAI_RPY 0.0 0.0 0.0)" />
     <xacro:arg name="hesai_num"                default="$(optenv HESAI_NUM 0)" />
+
+    <xacro:arg name="ouster_enable"            default="$(optenv OUSTER_ENABLE_DRIVER false)" />
+    <xacro:arg name="ouster_xyz"               default="$(optenv OUSTER_XYZ 0.0 0.0 0.0)" />
+    <xacro:arg name="ouster_rpy"               default="$(optenv OUSTER_RPY 0.0 0.0 0.0)" />
+    <xacro:arg name="ouster_lidar_num"         default="$(optenv OUSTER_LIDAR_NUM 0)" />
+    <xacro:arg name="ouster_imu_num"           default="$(optenv OUSTER_IMU_NUM 0)" />
 
     <xacro:arg name="d435_enable"              default="$(optenv D435_ENABLE_DRIVER false)" />
     <xacro:arg name="d435_xyz"                 default="$(optenv D435_XYZ 0.0 0.0 0.0)" />
@@ -238,6 +249,7 @@
     <!-- Custom configuration -->
     <xacro:if value="${outdoornav_configuration == 'custom' or outdoornav_configuration == 'teleop'}">
       <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+      <xacro:include filename="$(find ouster_description)/urdf/OS1-32.urdf.xacro"/>
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/hokuyo_ust10.urdf.xacro" />
       <xacro:include filename="$(find cpr_onav_description)/urdf/accessories/sick_lms1xx_mount.urdf.xacro"/>
       <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
@@ -322,6 +334,21 @@
           <child link="microstrain_link" />
           <origin xyz="$(arg microstrain_xyz)" rpy="$(arg microstrain_rpy)"/>
         </joint>
+
+        <xacro:if value="$(arg microstrain_gnss_enable)">
+          <link name="gps_position_link"/>
+          <joint name="gnss1_to_microstrain" type="fixed">
+            <parent link="microstrain_link" />
+            <child link="gps_position_link" />
+            <origin xyz="$(arg microstrain_gnss1_xyz)" rpy="$(arg microstrain_gnss1_rpy)"/>
+          </joint>
+          <link name="gps_heading_link"/>
+          <joint name="gnss2_to_microstrain" type="fixed">
+            <parent link="microstrain_link" />
+            <child link="gps_heading_link" />
+            <origin xyz="$(arg microstrain_gnss2_xyz)" rpy="$(arg microstrain_gnss2_rpy)"/>
+          </joint>
+        </xacro:if>
       </xacro:if>
 
       <!-- Xsens Link -->
@@ -358,8 +385,14 @@
         </joint>
       </xacro:if>
 
-      <!-- 2D LiDAR(s) Link -->
+      <!-- Ouster Link -->
+      <xacro:if value="$(arg ouster_enable)">
+        <xacro:OS1-32 name="os_sensor" parent="base_link" topic_points="/sensors/lidar_$(arg ouster_lidar_num)/pointcloud" topic_imu="/sensors/imu_$(arg ouster_imu_num)/data">
+          <origin xyz="$(arg ouster_xyz)" rpy="$(arg ouster_rpy)" />
+        </xacro:OS1-32>
+      </xacro:if>
 
+      <!-- 2D LiDAR Link(s) -->
       <xacro:if value="$(arg lms1xx_enable)">
         <xacro:sick_lms1xx_mount prefix="front" parent="base_link" topic="/sensors/lidar_$(arg lms1xx_num)/scan" tower="0" robot_namespace="/">
           <origin xyz="$(arg lms1xx_xyz)" rpy="$(arg lms1xx_rpy)"/>
