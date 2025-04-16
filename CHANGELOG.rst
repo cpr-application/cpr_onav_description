@@ -2,6 +2,18 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge pull request `#22 <https://github.com/cpr-application/cpr_onav_description/issues/22>`_ from cpr-application/ONAV-2740
+* use matching end tag
+* fix sensor type
+* use updated ouster driver and description repos
+* added ouster lidar link/joint to urdf
+* fix arg declaration
+* added microstrain gnss links
+* added hesai lidar link to urdf
+* Contributors: José Mastrangelo
+
 0.1.12 (2024-05-27)
 -------------------
 * Fix the Axis camera prefixes so we can more-easily identify the sensor frames
