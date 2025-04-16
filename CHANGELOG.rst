@@ -2,8 +2,8 @@
 Changelog for package cpr_onav_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.13 (2025-04-16)
+-------------------
 * Merge pull request `#22 <https://github.com/cpr-application/cpr_onav_description/issues/22>`_ from cpr-application/ONAV-2740
 * use matching end tag
 * fix sensor type
